@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --background: #0b0c10;
+    --foreground: oklch(0.98 0 0);
+    --card: #13141c;
+    --card-foreground: oklch(0.98 0 0);
+    --popover: #161722;
+    --popover-foreground: oklch(0.98 0 0);
+    --primary: oklch(0.98 0 0);
+    --primary-foreground: #0b0c10;
+    --secondary: #1a1b26;
+    --secondary-foreground: oklch(0.98 0 0);
+    --muted: #1e1f2c;
+    --muted-foreground: oklch(0.70 0.01 285.5);
+    --accent: #242536;
+    --accent-foreground: oklch(0.98 0 0);
+    --destructive: oklch(0.55 0.20 29.2);
+    --destructive-foreground: oklch(0.98 0 0);
+    --border: rgba(255, 255, 255, 0.12);
+    --input: rgba(255, 255, 255, 0.15);
+    --ring: rgba(255, 255, 255, 0.3);
+    --radius: 0.75rem;
+    --brand: #a855f7;
+    --brand-foreground: #ffffff;
+  }
+
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif);
+    overflow-x: hidden;
+  }
+}
+
+/* Exclusive Cella Ambient Mesh Gradient & Dark Mesh Glow */
+.rich-gradient {
+  position: relative;
+  background-color: #0b0c10;
+}
+
+.rich-gradient::after {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.9;
+  background-image:
+    radial-gradient(ellipse 65% 50% at 35% 35%, rgba(120, 40, 200, 0.45), rgba(0, 0, 0, 0) 75%),
+    radial-gradient(ellipse 85% 65% at 65% 50%, rgba(30, 20, 100, 0.6), rgba(0, 0, 0, 0) 75%),
+    linear-gradient(to bottom left, rgba(0, 0, 0, 0), rgba(60, 0, 80, 0.8)),
+    linear-gradient(to top left, rgba(0, 0, 0, 0), rgba(15, 6, 120, 0.8)),
+    linear-gradient(to bottom right, rgba(0, 0, 0, 0), rgba(184, 144, 0, 0.25)),
+    linear-gradient(to top right, rgba(0, 0, 0, 0), rgba(11, 144, 122, 0.3));
+  pointer-events: none;
+}
+
+.rich-gradient::before {
+  content: "";
+  display: block;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.7;
+  background-image: radial-gradient(circle 100vh at 50% 40%, rgba(168, 85, 247, 0.2), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+/* Glowing Aura Box */
+.glowing-box {
+  position: relative;
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.45), inset 0 0 15px rgba(168, 85, 247, 0.2);
+}
+
+@utility focus-effect {
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ring);
+  }
+}
