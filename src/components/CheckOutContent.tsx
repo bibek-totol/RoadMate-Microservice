@@ -1,11 +1,10 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
-import { ArrowRight, Banknote, Bike, Car, CheckCircle, Clock, CreditCard, IndianRupee, Loader2, MapPin, Navigation, Shield, Truck, Wallet, XCircle } from 'lucide-react';
+import { ArrowRight, Banknote, Bike, Car, CheckCircle, Clock, CreditCard, DollarSign, Loader2, MapPin, Navigation, Shield, Truck, Wallet, XCircle } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { div } from 'motion/react-client';
 import axios from 'axios';
-import Razorpay from 'razorpay';
 import { getSocket } from '@/lib/socket';
 const VEHICLE_META: any = {
   bike: { label: "Bike", Icon: Bike },
@@ -31,7 +30,7 @@ function CheckOutContent() {
   const driverId = params.get("driverId") || ""
   const vehicleId = params.get("vehicleId") || ""
   const fare = params.get("fare") || ""
-  const { Icon, label } = VEHICLE_META[vehicle]
+  const { Icon, label } = VEHICLE_META[vehicle] || { Icon: Car, label: "Car" }
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<Status>("idle")
   const [booking, setBooking] = useState<any>()
@@ -63,7 +62,7 @@ function CheckOutContent() {
       setStatus("requested")
     } catch (error: any) {
       setLoading(false)
-      console.log(error.response.data.message)
+      console.log(error?.response?.data?.message)
     }
   }
 
@@ -81,71 +80,22 @@ function CheckOutContent() {
        }
       },[])
 
-  const loadRazorpayScript = () => {
-    return new Promise((resolve) => {
-
-      if (typeof window === "undefined") {
-        resolve(false)
-        return;
-      }
-
-      if ((window as any).Razorpay) {
-        resolve(true)
-        return;
-      }
-
-      const script = document.createElement("script")
-      script.src = "https://checkout.razorpay.com/v1/checkout.js"
-      script.onload = () => resolve(true)
-      script.onerror = () => resolve(false)
-      document.body.appendChild(script)
-    })
-  }
-
   const handleConfirmPayment = async () => {
     if (!booking || !paymentMethod) return;
     setLoading(true)
     try {
 
       if (paymentMethod == "online") {
-        const razorpayLoaded = await loadRazorpayScript()
-        if (!razorpayLoaded) {
-          alert("razorpay script failed to load")
-        }
-
         const { data } = await axios.post("/api/payment/create", {
           bookingId: booking._id
         })
 
-
-
-
-        const paymentObject = new (window as any).Razorpay({
-          key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
-          amount: data.amount,
-          currency: "INR",
-          name: "RoadMate",
-          description: "Ride Payment",
-          order_id: data.orderId,
-          handler: async function (response: any) {
-            const { data } = await axios.post("/api/payment/verify", {
-              bookingId: booking._id,
-              ...response
-            })
-            setLoading(false)
-
-            if (data.success) {
-              setStatus("confirmed")
-              window.location.href = `/ride/${booking._id}`
-            }
-          }
-
-
-
-        })
-
-        paymentObject.open()
-
+        if (data.sessionUrl) {
+          window.location.href = data.sessionUrl;
+        } else {
+          alert("Failed to initiate Stripe payment session.");
+          setLoading(false);
+        }
       } else {
         const { data } = await axios.get(`/api/booking/${booking._id}/confirm`)
         setLoading(false)
@@ -160,7 +110,6 @@ function CheckOutContent() {
     }
 
   }
-
 
   const fetchActiveBooking = async () => {
     try {
@@ -267,7 +216,7 @@ function CheckOutContent() {
                   transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
                   className="flex items-baseline gap-1"
                 >
-                  <span className='text-zinc-400 text-lg font-black'><IndianRupee /></span>
+                  <span className='text-zinc-400 text-lg font-black'><DollarSign /></span>
                   <span className='text-zinc-900 text-5xl font-black tracking-tight leading-none'>{fare}</span>
                 </motion.div>
               </div>
