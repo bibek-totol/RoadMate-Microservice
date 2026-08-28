@@ -104,7 +104,7 @@ function Nav() {
                         </button>
 
                         <a
-                            href="https://github.com"
+                            href="https://github.com/bibek-totol/RoadMate-Microservice"
                             target="_blank"
                             rel="noreferrer"
                             className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition"
