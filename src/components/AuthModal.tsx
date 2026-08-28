@@ -97,7 +97,7 @@ function AuthModal({ open, onClose }: propType) {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         onClick={onClose}
-                        className="fixed inset-0 z-[90] bg-black/60 backdrop-blur-sm"
+                        className="fixed inset-0 z-[90] bg-black/75 backdrop-blur-md"
                     />
 
                     {/* Modal Dialog */}
@@ -108,10 +108,10 @@ function AuthModal({ open, onClose }: propType) {
                         transition={{ duration: 0.2, ease: "easeOut" }}
                         className="fixed inset-0 z-[100] flex items-center justify-center p-4"
                     >
-                        <div className="relative w-full max-w-md bg-card border border-border rounded-xl shadow-2xl p-6 sm:p-8 text-card-foreground">
+                        <div className="relative w-full max-w-md bg-[#12131c] border border-white/15 rounded-2xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_35px_rgba(168,85,247,0.15)] p-6 sm:p-8 text-white">
                             {/* Close Button */}
                             <button
-                                className="absolute right-4 top-4 w-7 h-7 rounded-md bg-muted hover:bg-muted/80 text-muted-foreground flex items-center justify-center transition"
+                                className="absolute right-4 top-4 w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-zinc-300 hover:text-white flex items-center justify-center transition border border-white/10 cursor-pointer"
                                 onClick={onClose}
                             >
                                 <X size={16} />
@@ -119,13 +119,13 @@ function AuthModal({ open, onClose }: propType) {
 
                             {/* Header */}
                             <div className="mb-6 text-center">
-                                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-secondary text-secondary-foreground text-[10px] font-semibold uppercase tracking-wider mb-2 border border-border">
+                                <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-950/60 text-purple-300 text-[10px] font-bold uppercase tracking-wider mb-2.5 border border-purple-500/30 shadow-xs">
                                     RoadMate Account
                                 </span>
-                                <h2 className="text-xl font-bold text-foreground tracking-tight">
+                                <h2 className="text-xl font-bold text-white tracking-tight">
                                     {step === "login" ? "Welcome Back" : step === "signup" ? "Create Account" : "Verify Email"}
                                 </h2>
-                                <p className="mt-1 text-xs text-muted-foreground font-normal">
+                                <p className="mt-1 text-xs text-zinc-400 font-normal">
                                     {step === "login" ? "Sign in to access your bookings & rides" : step === "signup" ? "Join RoadMate for instant multi-vendor vehicle booking" : "Enter the verification code sent to your email"}
                                 </p>
                             </div>
@@ -134,16 +134,16 @@ function AuthModal({ open, onClose }: propType) {
                                 <>
                                     <button
                                         onClick={handleGoogleLogin}
-                                        className="w-full h-10 rounded-lg border border-border bg-background hover:bg-muted flex items-center justify-center gap-2.5 text-xs font-semibold text-foreground shadow-xs transition"
+                                        className="w-full h-10 rounded-xl border border-white/15 bg-[#1a1b28] hover:bg-[#232538] flex items-center justify-center gap-2.5 text-xs font-semibold text-white shadow-xs transition cursor-pointer"
                                     >
                                         <Image src="/google.png" alt="Google" width={16} height={16} />
                                         Continue with Google
                                     </button>
 
                                     <div className="flex items-center gap-3 my-5">
-                                        <div className="flex-1 h-px bg-border" />
-                                        <span className="text-[10px] uppercase font-semibold text-muted-foreground">or email</span>
-                                        <div className="flex-1 h-px bg-border" />
+                                        <div className="flex-1 h-px bg-white/10" />
+                                        <span className="text-[10px] uppercase font-bold text-zinc-400">or email</span>
+                                        <div className="flex-1 h-px bg-white/10" />
                                     </div>
                                 </>
                             )}
@@ -152,42 +152,42 @@ function AuthModal({ open, onClose }: propType) {
                             {step === "login" && (
                                 <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}>
                                     <div className="space-y-3">
-                                        <div className="flex items-center gap-2.5 border border-border rounded-lg px-3.5 py-2.5 bg-background focus-within:border-ring transition">
-                                            <Mail size={16} className="text-muted-foreground shrink-0" />
+                                        <div className="flex items-center gap-2.5 border border-white/15 rounded-xl px-3.5 py-2.5 bg-[#1a1b28] focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/40 transition">
+                                            <Mail size={16} className="text-zinc-400 shrink-0" />
                                             <input
                                                 type="email"
                                                 placeholder="Email Address"
-                                                className="w-full bg-transparent outline-none text-xs font-medium text-foreground"
+                                                className="w-full bg-transparent outline-none text-xs font-medium text-white placeholder:text-zinc-500"
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 value={email}
                                             />
                                         </div>
 
-                                        <div className="flex items-center gap-2.5 border border-border rounded-lg px-3.5 py-2.5 bg-background focus-within:border-ring transition">
-                                            <Lock size={16} className="text-muted-foreground shrink-0" />
+                                        <div className="flex items-center gap-2.5 border border-white/15 rounded-xl px-3.5 py-2.5 bg-[#1a1b28] focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/40 transition">
+                                            <Lock size={16} className="text-zinc-400 shrink-0" />
                                             <input
                                                 type="password"
                                                 placeholder="Password"
-                                                className="w-full bg-transparent outline-none text-xs font-medium text-foreground"
+                                                className="w-full bg-transparent outline-none text-xs font-medium text-white placeholder:text-zinc-500"
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 value={password}
                                             />
                                         </div>
 
-                                        {err && <p className="text-destructive text-xs font-semibold px-1">*{err}</p>}
+                                        {err && <p className="text-red-400 text-xs font-semibold px-1">*{err}</p>}
 
                                         <button
                                             onClick={handleLogin}
                                             disabled={loading}
-                                            className="w-full h-10 rounded-lg bg-primary text-primary-foreground text-xs font-semibold transition flex items-center justify-center shadow-xs mt-1 hover:opacity-90"
+                                            className="w-full h-10 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition flex items-center justify-center shadow-lg shadow-purple-600/30 mt-1 cursor-pointer"
                                         >
-                                            {!loading ? "Sign In" : <CircleDashed size={16} className="animate-spin text-primary-foreground" />}
+                                            {!loading ? "Sign In" : <CircleDashed size={16} className="animate-spin text-white" />}
                                         </button>
                                     </div>
 
-                                    <p className="mt-5 text-center text-xs text-muted-foreground font-normal">
+                                    <p className="mt-5 text-center text-xs text-zinc-400 font-normal">
                                         Don’t have an account?{" "}
-                                        <button onClick={() => { setErr(""); setStep("signup"); }} className="text-foreground font-semibold hover:underline">
+                                        <button onClick={() => { setErr(""); setStep("signup"); }} className="text-purple-400 font-semibold hover:underline cursor-pointer">
                                             Sign Up
                                         </button>
                                     </p>
@@ -197,53 +197,53 @@ function AuthModal({ open, onClose }: propType) {
                             {step === "signup" && (
                                 <motion.div initial={{ opacity: 0, x: 10 }} animate={{ opacity: 1, x: 0 }}>
                                     <div className="space-y-3">
-                                        <div className="flex items-center gap-2.5 border border-border rounded-lg px-3.5 py-2.5 bg-background focus-within:border-ring transition">
-                                            <User size={16} className="text-muted-foreground shrink-0" />
+                                        <div className="flex items-center gap-2.5 border border-white/15 rounded-xl px-3.5 py-2.5 bg-[#1a1b28] focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/40 transition">
+                                            <User size={16} className="text-zinc-400 shrink-0" />
                                             <input
                                                 type="text"
                                                 placeholder="Full Name"
-                                                className="w-full bg-transparent outline-none text-xs font-medium text-foreground"
+                                                className="w-full bg-transparent outline-none text-xs font-medium text-white placeholder:text-zinc-500"
                                                 onChange={(e) => setName(e.target.value)}
                                                 value={name}
                                             />
                                         </div>
 
-                                        <div className="flex items-center gap-2.5 border border-border rounded-lg px-3.5 py-2.5 bg-background focus-within:border-ring transition">
-                                            <Mail size={16} className="text-muted-foreground shrink-0" />
+                                        <div className="flex items-center gap-2.5 border border-white/15 rounded-xl px-3.5 py-2.5 bg-[#1a1b28] focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/40 transition">
+                                            <Mail size={16} className="text-zinc-400 shrink-0" />
                                             <input
                                                 type="email"
                                                 placeholder="Email Address"
-                                                className="w-full bg-transparent outline-none text-xs font-medium text-foreground"
+                                                className="w-full bg-transparent outline-none text-xs font-medium text-white placeholder:text-zinc-500"
                                                 onChange={(e) => setEmail(e.target.value)}
                                                 value={email}
                                             />
                                         </div>
 
-                                        <div className="flex items-center gap-2.5 border border-border rounded-lg px-3.5 py-2.5 bg-background focus-within:border-ring transition">
-                                            <Lock size={16} className="text-muted-foreground shrink-0" />
+                                        <div className="flex items-center gap-2.5 border border-white/15 rounded-xl px-3.5 py-2.5 bg-[#1a1b28] focus-within:border-purple-500 focus-within:ring-1 focus-within:ring-purple-500/40 transition">
+                                            <Lock size={16} className="text-zinc-400 shrink-0" />
                                             <input
                                                 type="password"
                                                 placeholder="Password"
-                                                className="w-full bg-transparent outline-none text-xs font-medium text-foreground"
+                                                className="w-full bg-transparent outline-none text-xs font-medium text-white placeholder:text-zinc-500"
                                                 onChange={(e) => setPassword(e.target.value)}
                                                 value={password}
                                             />
                                         </div>
 
-                                        {err && <p className="text-destructive text-xs font-semibold px-1">*{err}</p>}
+                                        {err && <p className="text-red-400 text-xs font-semibold px-1">*{err}</p>}
 
                                         <button
                                             onClick={handleSignUp}
                                             disabled={loading}
-                                            className="w-full h-10 rounded-lg bg-primary text-primary-foreground text-xs font-semibold transition flex items-center justify-center shadow-xs mt-1 hover:opacity-90"
+                                            className="w-full h-10 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold transition flex items-center justify-center shadow-lg shadow-purple-600/30 mt-1 cursor-pointer"
                                         >
-                                            {!loading ? "Send OTP Code" : <CircleDashed size={16} className="animate-spin text-primary-foreground" />}
+                                            {!loading ? "Send OTP Code" : <CircleDashed size={16} className="animate-spin text-white" />}
                                         </button>
                                     </div>
 
-                                    <p className="mt-5 text-center text-xs text-muted-foreground font-normal">
+                                    <p className="mt-5 text-center text-xs text-zinc-400 font-normal">
                                         Already have an account?{" "}
-                                        <button onClick={() => { setErr(""); setStep("login"); }} className="text-foreground font-semibold hover:underline">
+                                        <button onClick={() => { setErr(""); setStep("login"); }} className="text-purple-400 font-semibold hover:underline cursor-pointer">
                                             Sign In
                                         </button>
                                     </p>
@@ -259,20 +259,20 @@ function AuthModal({ open, onClose }: propType) {
                                                 id={`otp-${i}`}
                                                 value={digit}
                                                 maxLength={1}
-                                                className="w-10 h-12 text-center text-base font-bold rounded-lg bg-background border border-border focus:border-ring outline-none transition"
+                                                className="w-10 h-12 text-center text-base font-bold rounded-xl bg-[#1a1b28] border border-white/15 text-white focus:border-purple-500 outline-none transition"
                                                 onChange={(e) => handleChangeOtp(i, e.target.value)}
                                             />
                                         ))}
                                     </div>
 
-                                    {err && <p className="text-destructive text-xs font-semibold text-center mt-3">*{err}</p>}
+                                    {err && <p className="text-red-400 text-xs font-semibold text-center mt-3">*{err}</p>}
 
                                     <button
                                         onClick={handleVerifyEmail}
                                         disabled={loading}
-                                        className="mt-5 w-full h-10 rounded-lg bg-primary text-primary-foreground text-xs font-semibold flex justify-center items-center transition shadow-xs hover:opacity-90"
+                                        className="mt-5 w-full h-10 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold flex justify-center items-center transition shadow-lg shadow-purple-600/30 cursor-pointer"
                                     >
-                                        {!loading ? "Verify OTP & Create Account" : <CircleDashed size={16} className="animate-spin text-primary-foreground" />}
+                                        {!loading ? "Verify OTP & Create Account" : <CircleDashed size={16} className="animate-spin text-white" />}
                                     </button>
                                 </motion.div>
                             )}

@@ -12,12 +12,14 @@ export async function GET(req:Request) {
                 {status:400}
             )
         }
-        const user=await User.findOne({email:session.user.email})
+        let user=await User.findOne({email:session.user.email})
         if(!user){
-             return Response.json(
-                {message:"user not found!"},
-                {status:400}
-            )
+             user = await User.create({
+                 name: session.user.name || "User",
+                 email: session.user.email,
+                 isEmailVerified: true,
+                 role: "user"
+             })
         }
 
          return Response.json(

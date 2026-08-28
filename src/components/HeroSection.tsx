@@ -22,16 +22,7 @@ function HeroSection({ onAuthRequired }: { onAuthRequired: () => void }) {
     return (
         <section className="rich-gradient relative w-full pt-28 pb-36 md:pt-36 md:pb-44 px-4 overflow-hidden text-white flex flex-col items-center justify-center min-h-[88vh]">
             <div className="max-w-4xl mx-auto text-center flex flex-col items-center relative z-10">
-                {/* Top Soft Badge */}
-                <motion.div
-                    initial={{ opacity: 0, y: -10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4 }}
-                    className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-semibold text-zinc-200 mb-6 backdrop-blur-md"
-                >
-                    <ShieldCheck size={14} className="text-amber-400" />
-                    Smart Multi-Vendor Mobility Platform
-                </motion.div>
+               
 
                 {/* Hero Headline */}
                 <motion.h1
