@@ -80,13 +80,13 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
   const geoCoding = async (q: string): Promise<[number, number] | null> => {
     try {
       const { data } = await axios.get("https://api.geoapify.com/v1/geocode/autocomplete", {
-  params: {
-    text: q.trim(),
-    apiKey: process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY,
-    filter: "countrycode:in", // India ke liye fix
-    limit: 1
-  }
-})
+        params: {
+          text: q.trim(),
+          apiKey: process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY,
+          filter: "countrycode:bd", // Bangladesh filter
+          limit: 1
+        }
+      })
       if (!data.features.length) return null
       const [lon, lat] = data.features[0].geometry.coordinates
       return [lat, lon];
@@ -96,16 +96,15 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
     }
   }
 
-  const reverseGeoCoding=async (lat:number,lon:number)=>{
-
-    const {data}=await axios.get("https://api.geoapify.com/v1/geocode/reverse",{
-          params:{
-            lat,
-            lon,
-            apiKey:process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY,
-            filter:"countrycode:in"
-          }
-        })
+  const reverseGeoCoding = async (lat: number, lon: number) => {
+    const { data } = await axios.get("https://api.geoapify.com/v1/geocode/reverse", {
+      params: {
+        lat,
+        lon,
+        apiKey: process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY,
+        filter: "countrycode:bd"
+      }
+    })
         
        if(!data.features.length)return;
         const p=data.features[0].properties
@@ -180,9 +179,9 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
 
 
         <TileLayer
-
-          attribution='&copy; <a href="https://carto.com/">"CARTO"</a> contributors'
-          url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png" />
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+        />
 
         {p1 && p2 && <FitBounds p1={p1} p2={p2} />}
 

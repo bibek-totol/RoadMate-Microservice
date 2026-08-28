@@ -99,9 +99,7 @@ function Nav() {
 
                     {/* Right Utility Icons & Sign In Pill Button */}
                     <div className="flex items-center gap-3">
-                        <button className="hidden sm:flex items-center justify-center w-8 h-8 rounded-full hover:bg-white/10 text-zinc-400 hover:text-white transition">
-                            <Moon size={16} />
-                        </button>
+                      
 
                         <a
                             href="https://github.com/bibek-totol/RoadMate-Microservice"

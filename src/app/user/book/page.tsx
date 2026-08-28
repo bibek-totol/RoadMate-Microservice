@@ -59,7 +59,7 @@ function page() {
         params: {
           text: q.trim(),
           apiKey: process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY,
-          filter: "countrycode:in",
+          filter: "countrycode:bd",
           limit: 5
         }
       })
@@ -95,7 +95,7 @@ function page() {
             lat: coords.latitude,
             lon: coords.longitude,
             apiKey: process.env.NEXT_PUBLIC_GEOAPIFY_API_KEY,
-            filter: "countrycode:in"
+            filter: "countrycode:bd"
           }
         })
         if (data.features.length) {
