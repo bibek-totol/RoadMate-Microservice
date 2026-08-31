@@ -50,9 +50,23 @@ function AdminDashboard() {
     <div className='min-h-screen bg-linear-to-br from-gray-100 to-gray-200'>
       <div className='sticky top-0 bg-white/80 backdrop-blur-lg border-b z-40'>
         <div className='max-w-7xl mx-auto h-16 px-6 flex items-center justify-between'>
-          <div className='flex items-center gap-3'>
-            <Image src={"/logo.png"} alt='logo' width={44} height={44} priority />
-
+          <div className='flex items-center gap-3 cursor-pointer' onClick={() => window.location.href = '/'}>
+            <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
+              <Image
+                src="/loco.png"
+                alt="RoadMate"
+                width={40}
+                height={40}
+                priority
+                className="object-cover w-full h-full rounded-lg scale-135"
+              />
+            </div>
+            <span className="font-bold text-lg tracking-tight text-gray-900 flex items-center gap-1.5">
+              RoadMate
+              <span className="text-[10px] font-semibold tracking-wide uppercase px-2 py-0.5 rounded-full bg-purple-100 text-purple-700 border border-purple-200">
+                Admin
+              </span>
+            </span>
           </div>
 
           <div className='flex items-center gap-2 text-xs px-3 py-1.5 rounded-full bg-black text-white'>

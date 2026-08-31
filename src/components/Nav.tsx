@@ -65,8 +65,15 @@ function Nav() {
                             className="flex items-center gap-2 cursor-pointer focus-effect rounded-lg py-1 px-1 transition-transform hover:scale-105"
                             onClick={() => router.push('/')}
                         >
-                            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center p-1 shadow-md border border-white/20">
-                                <Image src="/logo.png" alt="RoadMate" width={20} height={20} priority className="object-contain invert brightness-200" />
+                            <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
+                                <Image
+                                    src="/loco.png"
+                                    alt="RoadMate"
+                                    width={36}
+                                    height={36}
+                                    priority
+                                    className="object-cover w-full h-full rounded-lg scale-135"
+                                />
                             </div>
                             <span className="font-bold text-lg tracking-tight text-white flex items-center gap-1.5">
                                 roadmate

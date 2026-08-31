@@ -126,9 +126,21 @@ try {
   return (
     <div className='min-h-screen bg-black text-white flex flex-col'>
       <div className='px-6 py-4 border-b border-white/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4'>
-        <div>
-          <Image src={"/logo.png"} alt='logo' width={44} height={44} priority />
-          <p className='text-xs text-gray-400'>{userData?.role == "admin" ? "Admin Verification" : "Partner Video KYC"}</p>
+        <div className="flex items-center gap-3">
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
+            <Image
+              src="/loco.png"
+              alt="RoadMate"
+              width={40}
+              height={40}
+              priority
+              className="object-cover w-full h-full rounded-lg scale-135"
+            />
+          </div>
+          <div>
+            <h3 className="font-bold text-sm text-white tracking-tight">RoadMate</h3>
+            <p className='text-[11px] text-zinc-400'>{userData?.role == "admin" ? "Admin Verification" : "Partner Video KYC"}</p>
+          </div>
         </div>
 
         {joined && (

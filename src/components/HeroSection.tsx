@@ -36,8 +36,8 @@ export default function HeroSection({ onAuthRequired }: { onAuthRequired: () => 
     })
 
     const smoothScrollProgress = useSpring(scrollYProgress, {
-        stiffness: 200,
-        damping: 30,
+        stiffness: 90,
+        damping: 25,
         restDelta: 0.0001
     })
 
@@ -109,7 +109,7 @@ export default function HeroSection({ onAuthRequired }: { onAuthRequired: () => 
     const progressPercent = Math.round((currentFrame / (TOTAL_FRAMES - 1)) * 100)
 
     return (
-        <section ref={containerRef} className="relative w-full h-[320vh] bg-[#010202] text-white">
+        <section ref={containerRef} className="relative w-full h-[500vh] bg-[#010202] text-white">
 
             {/* ── Sticky viewport ── */}
             <div className="sticky top-0 h-screen w-full overflow-hidden flex flex-col items-center justify-between">

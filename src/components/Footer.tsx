@@ -69,8 +69,15 @@ function Footer() {
         {/* Center Logo Pill & Line matching Image 2 */}
         <div className="flex flex-col items-center justify-center pt-8 border-t border-white/10">
           <div className="flex items-center gap-2 mb-6">
-            <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-500 text-white flex items-center justify-center p-1 border border-white/20">
-              <Image src="/logo.png" alt="RoadMate" width={18} height={18} priority className="object-contain invert brightness-200" />
+            <div className="relative w-8 h-8 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
+              <Image
+                src="/loco.png"
+                alt="RoadMate"
+                width={32}
+                height={32}
+                priority
+                className="object-cover w-full h-full rounded-lg scale-135"
+              />
             </div>
             <span className="text-lg font-bold tracking-tight text-white">
               roadmate
