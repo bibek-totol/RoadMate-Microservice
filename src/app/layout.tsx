@@ -28,6 +28,22 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Preload first 8 hero frames with high priority — browser fetches these
+            before any JS/CSS parses, guaranteeing instant first-frame display.
+            All 177 frames are served with Cache-Control: immutable (1 year),
+            so after the first visit the browser never re-downloads any frame. */}
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
+          <link
+            key={n}
+            rel="preload"
+            as="image"
+            href={`/hero-frames/ezgif-frame-${String(n).padStart(3, '0')}.webp`}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            fetchPriority={"high" as any}
+          />
+        ))}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
@@ -42,3 +58,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -12,7 +12,7 @@ function PublicHome() {
   const [authOpen, setAuthOpen] = useState(false)
 
   return (
-    <main className="w-full bg-[#0b0c10] text-white overflow-hidden">
+    <main className="w-full bg-[#0b0c10] text-white overflow-x-clip">
       <HeroSection onAuthRequired={() => setAuthOpen(true)} />
       <HowItWorks />
       <FeaturesSection />
