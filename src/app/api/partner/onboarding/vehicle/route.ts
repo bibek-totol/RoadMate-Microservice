@@ -4,7 +4,8 @@ import User from "@/models/user.model";
 import Vehicle, { IVehicle } from "@/models/vehicle.model";
 import { NextRequest } from "next/server";
 
-const VEHICLE_REGEX = /^[A-Z]{2}[0-9]{1,2}[A-Z]{0,2}[0-9]{4}$/;
+// Regex for Bangladeshi vehicle registration numbers (supports BRTA formats e.g. DHAKA METRO-HA-11-2233, DHAKA-GA-11-2233, etc.)
+const VEHICLE_REGEX = /^(?=.*[A-Z])(?=.*[0-9])[A-Z0-9\s\-]{5,30}$/i;
 export async function POST(req: Request) {
     try {
         await connectDb()
@@ -23,10 +24,14 @@ export async function POST(req: Request) {
         }
 
         const { type, number, vehicleModel } = await req.json()
-        if (!type || !number || !vehicleModel) {
-            return Response.json({ message: "missing Required details" }
-                , { status: 400 }
-            )
+        if (!type) {
+            return Response.json({ message: "Please select a vehicle type" }, { status: 400 })
+        }
+        if (!number) {
+            return Response.json({ message: "Please enter a vehicle registration number" }, { status: 400 })
+        }
+        if (!vehicleModel) {
+            return Response.json({ message: "Please enter your vehicle model" }, { status: 400 })
         }
 
         if (!VEHICLE_REGEX.test(number)) {

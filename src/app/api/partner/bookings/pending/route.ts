@@ -4,31 +4,26 @@ import Booking from "@/models/booking.model";
 import User from "@/models/user.model";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req:NextRequest) {
+export async function GET(req: NextRequest) {
     try {
-         await connectDb()
+        await connectDb()
         const session = await auth()
         if (!session || !session.user?.email) {
-            return NextResponse.json({ message: "unauthorized" }
-                , { status: 400 }
-            )
+            return NextResponse.json({ message: "unauthorized" }, { status: 401 })
         }
 
         const partner = await User.findOne({ email: session.user.email })
         if (!partner) {
-            return NextResponse.json({ message: "partner not found" }
-                , { status: 400 }
-            )
-        } 
+            return NextResponse.json([], { status: 200 })
+        }
 
-        const bookings=await Booking.find({
-            driver:partner._id,
-            bookingStatus:"requested"
-        })
-        return NextResponse.json(bookings,{status:200})
+        const bookings = await Booking.find({
+            driver: partner._id,
+            bookingStatus: "requested"
+        }).populate("user driver vehicle").sort({ createdAt: -1 })
+
+        return NextResponse.json(bookings, { status: 200 })
     } catch (error) {
-        return NextResponse.json({ message: `fetch pending req  error ${error}` }
-                , { status: 500 }
-            )
+        return NextResponse.json({ message: `fetch pending req error ${error}` }, { status: 500 })
     }
 }

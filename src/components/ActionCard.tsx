@@ -3,30 +3,32 @@ import React from 'react'
 
 function ActionCard({icon,title,button,onclick}:any) {
   return (
-    <div className=' bg-white 
-        rounded-2xl md:rounded-3xl 
+    <div className=' bg-[#0d0e15]/90 
+        backdrop-blur-xl
+        rounded-2xl 
         p-5 sm:p-6 md:p-8 
-        shadow-lg 
-        border 
+        shadow-[0_8px_32px_rgba(0,0,0,0.5)] 
+        border border-white/10
         flex 
         flex-col sm:flex-row 
         justify-between 
         items-start sm:items-center 
-        gap-5'>
+        gap-5
+        text-white'>
       <div className='flex items-center gap-4'>
-        <div className='bg-black text-white p-3 md:p-4 rounded-xl shrink-0'>{icon}</div>
-        <div className='text-base sm:text-lg md:text-xl font-semibold'>{title}</div>
+        <div className='bg-purple-600/20 border border-purple-500/30 text-purple-300 p-3.5 md:p-4 rounded-xl shrink-0'>{icon}</div>
+        <div className='text-base sm:text-lg md:text-xl font-bold text-white'>{title}</div>
       </div>
       <button className=' w-full sm:w-auto
-          bg-black 
+          bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 
           text-white 
           px-6 
-          py-2.5 
+          py-3 
           rounded-xl 
           text-sm sm:text-base 
-          font-medium
+          font-semibold
           transition 
-          hover:bg-gray-800' onClick={onclick}>{button}</button>
+          hover:opacity-90 shadow-[0_0_20px_rgba(147,51,234,0.4)]' onClick={onclick}>{button}</button>
     </div>
   )
 }

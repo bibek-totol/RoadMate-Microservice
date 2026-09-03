@@ -22,31 +22,21 @@ export default async function Home() {
     }
   }
   const plainUser = user ? JSON.parse(JSON.stringify(user)) : null
-  return (
-   <div className="w-full min-h-screen bg-white">
-    <GeoUpdater userId={plainUser?._id}/>
-    {plainUser?.role=="partner"
-    ?
-    <>
-    <Nav/>
-    <PartnerDashboard/>
-    </>
 
-    :
-    (
-      plainUser?.role=="admin"
-      ?
-      <AdminDashboard/>
-      :
-      <>
-      <Nav/>
-      <PublicHome/>
-      </>
-     
-    )
-    }
-   
-    <Footer/>
-   </div>
+  return (
+    <div className="w-full min-h-screen bg-[#0b0c10] text-white selection:bg-purple-500 selection:text-white flex flex-col justify-between">
+      <GeoUpdater userId={plainUser?._id} />
+      <Nav />
+      <main className="relative z-10 pt-20 flex-1">
+        {plainUser?.role === "partner" ? (
+          <PartnerDashboard />
+        ) : plainUser?.role === "admin" ? (
+          <AdminDashboard />
+        ) : (
+          <PublicHome />
+        )}
+      </main>
+      <Footer />
+    </div>
   );
 }

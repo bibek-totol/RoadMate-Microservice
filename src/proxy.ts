@@ -3,22 +3,21 @@ import { auth } from "./auth"
 
 const PUBLIC_ROUTES = ["/"]
 
-
 export async function proxy(req: NextRequest) {
-
     const { pathname } = req.nextUrl
+
     if (
         pathname.startsWith("/_next") ||
-        pathname.startsWith("/favicon.ico")||
+        pathname.startsWith("/favicon.ico") ||
         /\.(png|jpg|jpeg|gif|svg|webp|ico)$/i.test(pathname)
     ) {
         return NextResponse.next()
     }
 
-
     if (PUBLIC_ROUTES.includes(pathname)) {
         return NextResponse.next()
     }
+
     if (pathname.startsWith("/api/auth")) {
         return NextResponse.next()
     }
@@ -31,15 +30,13 @@ export async function proxy(req: NextRequest) {
     const role = session.user?.role
 
     if (pathname.startsWith("/admin")) {
-        if (role != "admin") {
+        if (role !== "admin") {
             return NextResponse.redirect(new URL("/", req.url))
         }
     }
+
     if (pathname.startsWith("/partner")) {
-         if(pathname.startsWith("/partner/onboarding")){
-              return NextResponse.next()
-         }
-        if (role != "partner") {
+        if (!session) {
             return NextResponse.redirect(new URL("/", req.url))
         }
     }
@@ -53,10 +50,8 @@ export async function proxy(req: NextRequest) {
     }
 
     return NextResponse.next()
-
 }
 
-
-export const config={
-    matcher:["/((?!_next/static|_next/image|favicon.ico).*)"]
+export const config = {
+    matcher: ["/((?!_next/static|_next/image|favicon.ico).*)"]
 }

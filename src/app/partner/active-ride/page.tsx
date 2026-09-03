@@ -12,6 +12,8 @@ import PanelContent from '@/components/PanelContent'
 import { getSocket } from '@/lib/socket'
 import CompletedScreen from '@/components/CompletedScreen'
 import { useRouter } from 'next/navigation'
+import Nav from '@/components/Nav'
+import Footer from '@/components/Footer'
 
 
 const MAP_STATUS: Record<BookingStatus, "arriving" | "ongoing" | "completed"> = {
@@ -190,19 +192,38 @@ function page() {
     }, [booking?._id])
     if (loading) {
         return (
-            <div className='h-screen w-full bg-zinc-950 flex items-center justify-center'>
-                <div className='flex flex-col items-center gap-4'>
-                    <div className='w-12 h-12 rounded-full border-2 border-white/20 border-t-white animate-spin' />
-                    <p className='text-white/40 text-sm tracking-widest uppercase font-medium'>Loading Ride...</p>
+            <div className='h-screen w-full bg-[#0b0c10] flex items-center justify-center relative overflow-hidden'>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-600/10 blur-[130px] rounded-full pointer-events-none" />
+                <div className='flex flex-col items-center gap-4 relative z-10'>
+                    <div className='w-12 h-12 rounded-full border-2 border-purple-500/20 border-t-purple-500 animate-spin' />
+                    <p className='text-purple-300/60 text-xs tracking-widest uppercase font-semibold'>Loading Active Ride...</p>
                 </div>
             </div>)
     }
 
     if(booking==null ){
-      
-        return (<div className='bg-black w-full h-screen flex justify-center items-center text-[20px] text-white'>
-         No Active Ride found !
-        </div>)
+        return (
+            <div className='bg-[#0b0c10] text-white w-full h-screen flex flex-col justify-between relative overflow-hidden'>
+                <Nav />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/10 blur-[140px] rounded-full pointer-events-none" />
+                
+                <div className='flex-1 flex flex-col items-center justify-center px-4 relative z-10 text-center'>
+                    <div className="w-16 h-16 rounded-2xl bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-purple-300 mb-4 shadow-[0_0_20px_rgba(168,85,247,0.3)]">
+                        <Car className="w-8 h-8" />
+                    </div>
+                    <h2 className='text-2xl font-extrabold text-white'>No Active Ride Found</h2>
+                    <p className='text-gray-400 text-sm mt-2 max-w-sm'>You currently do not have any ongoing or active rides assigned.</p>
+                    <button
+                        onClick={() => router.push('/partner')}
+                        className='mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-semibold text-xs uppercase tracking-wider transition shadow-[0_0_20px_rgba(147,51,234,0.4)]'
+                    >
+                        Back to Partner Dashboard
+                    </button>
+                </div>
+
+                <Footer />
+            </div>
+        )
     }
 
     if(status==="completed" && booking){

@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  turbopack: {},
   experimental: {
     optimizePackageImports: [
       "lucide-react",
@@ -64,4 +65,3 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
-

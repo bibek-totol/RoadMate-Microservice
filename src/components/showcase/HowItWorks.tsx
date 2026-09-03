@@ -22,11 +22,11 @@ const MOBILITY_FEATURES = [
 ]
 
 const LIVE_DISPATCH_RIDES = [
-  { driver: 'Rahul Sharma (Bike)', rider: 'Amit Patel', vehicle: 'Honda Shine (DH-1234)', fare: '₹85', status: 'En Route' },
-  { driver: 'Vikram Singh (Car)', rider: 'Priya Roy', vehicle: 'Hyundai Swift (DL-5678)', fare: '₹340', status: 'On Trip' },
-  { driver: 'Suresh Kumar (Auto)', rider: 'Karan Mehra', vehicle: 'Bajaj RE Auto (MH-9012)', fare: '₹140', status: 'Assigned' },
-  { driver: 'Ramesh Verma (Truck)', rider: 'Logistics Co.', vehicle: 'Tata Ace Freight (KA-3456)', fare: '₹1,250', status: 'Loading' },
-  { driver: 'Anil Gupta (Car)', rider: 'Sneha Kapur', vehicle: 'Maruti Dzire (UP-7890)', fare: '₹420', status: 'Arriving' },
+  { driver: 'Rahul Sharma (Bike)', rider: 'Amit Patel', vehicle: 'Honda Shine (DHA METRO-HA-1234)', fare: '৳85', status: 'En Route' },
+  { driver: 'Vikram Singh (Car)', rider: 'Priya Roy', vehicle: 'Hyundai Swift (DHAKA METRO-GA-5678)', fare: '৳340', status: 'On Trip' },
+  { driver: 'Suresh Kumar (Auto)', rider: 'Karan Mehra', vehicle: 'Bajaj RE Auto (DHAKA-CHA-9012)', fare: '৳140', status: 'Assigned' },
+  { driver: 'Ramesh Verma (Truck)', rider: 'Logistics Co.', vehicle: 'Tata Ace Freight (CHATTO METRO-TA-3456)', fare: '৳1,250', status: 'Loading' },
+  { driver: 'Anil Gupta (Car)', rider: 'Sneha Kapur', vehicle: 'Maruti Dzire (SYLHET METRO-GA-7890)', fare: '৳420', status: 'Arriving' },
 ]
 
 export default function HowItWorks() {

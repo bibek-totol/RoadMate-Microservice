@@ -86,20 +86,35 @@ function Nav() {
                             <a href="#core-features" className="text-xs font-medium text-zinc-300 hover:text-white transition">Features</a>
                             <a href="#fleet" className="text-xs font-medium text-zinc-300 hover:text-white transition">Fleet</a>
                             <a href="#ride-sharing" className="text-xs font-medium text-zinc-300 hover:text-white transition">Ride Sharing</a>
-                            <a href="/partner/onboarding/vehicle" className="text-xs font-medium text-zinc-300 hover:text-white transition">Become a Partner</a>
-
-                            {userData?.role === "partner" && (
-                                <Link
-                                    className="text-xs font-medium text-amber-400 flex items-center gap-1.5 hover:underline"
-                                    href="/partner/pending-requests"
-                                >
-                                    <span>Requests</span>
-                                    {pendingCount > 0 && (
-                                        <span className="px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-amber-500 text-black">
-                                            {pendingCount}
-                                        </span>
-                                    )}
-                                </Link>
+                            
+                            {userData?.role === "partner" ? (
+                                <>
+                                    <Link
+                                        className="text-xs font-medium text-purple-300 hover:text-white transition flex items-center gap-1"
+                                        href="/partner"
+                                    >
+                                        <span>Dashboard</span>
+                                    </Link>
+                                    <Link
+                                        className="text-xs font-medium text-purple-300 hover:text-white transition flex items-center gap-1"
+                                        href="/partner/bookings"
+                                    >
+                                        <span>Bookings</span>
+                                    </Link>
+                                    <Link
+                                        className="text-xs font-medium text-amber-400 flex items-center gap-1.5 hover:underline"
+                                        href="/partner/pending-requests"
+                                    >
+                                        <span>Requests</span>
+                                        {pendingCount > 0 && (
+                                            <span className="px-1.5 py-0.2 text-[10px] font-bold rounded-full bg-amber-500 text-black">
+                                                {pendingCount}
+                                            </span>
+                                        )}
+                                    </Link>
+                                </>
+                            ) : (
+                                <a href="/partner/onboarding/vehicle" className="text-xs font-medium text-zinc-300 hover:text-white transition">Become a Partner</a>
                             )}
                         </nav>
                     </div>
@@ -148,13 +163,47 @@ function Nav() {
                                                 <p className="text-[10px] text-zinc-400 uppercase">{userData.role}</p>
                                             </div>
 
-                                            <button
-                                                className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/5 text-xs text-zinc-300 transition"
-                                                onClick={() => { setProfileOpen(false); router.push("/user/bookings") }}
-                                            >
-                                                <span>My Bookings</span>
-                                                <ChevronRight size={14} className="text-zinc-500" />
-                                            </button>
+                                            {userData.role === "partner" ? (
+                                                <>
+                                                    <button
+                                                        className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/5 text-xs text-zinc-300 transition"
+                                                        onClick={() => { setProfileOpen(false); router.push("/partner") }}
+                                                    >
+                                                        <span>Partner Dashboard</span>
+                                                        <ChevronRight size={14} className="text-zinc-500" />
+                                                    </button>
+                                                    <button
+                                                        className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/5 text-xs text-zinc-300 transition"
+                                                        onClick={() => { setProfileOpen(false); router.push("/partner/bookings") }}
+                                                    >
+                                                        <span>Bookings</span>
+                                                        <ChevronRight size={14} className="text-zinc-500" />
+                                                    </button>
+                                                    <button
+                                                        className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/5 text-xs text-zinc-300 transition"
+                                                        onClick={() => { setProfileOpen(false); router.push("/partner/pending-requests") }}
+                                                    >
+                                                        <span>Ride Requests</span>
+                                                        <ChevronRight size={14} className="text-zinc-500" />
+                                                    </button>
+                                                </>
+                                            ) : userData.role === "admin" ? (
+                                                <button
+                                                    className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/5 text-xs text-zinc-300 transition"
+                                                    onClick={() => { setProfileOpen(false); router.push("/admin") }}
+                                                >
+                                                    <span>Admin Dashboard</span>
+                                                    <ChevronRight size={14} className="text-zinc-500" />
+                                                </button>
+                                            ) : (
+                                                <button
+                                                    className="w-full flex items-center justify-between p-2 rounded-lg hover:bg-white/5 text-xs text-zinc-300 transition"
+                                                    onClick={() => { setProfileOpen(false); router.push("/user/bookings") }}
+                                                >
+                                                    <span>My Bookings</span>
+                                                    <ChevronRight size={14} className="text-zinc-500" />
+                                                </button>
+                                            )}
 
                                             <button
                                                 className="w-full flex items-center gap-2 p-2 hover:bg-red-950/40 text-red-400 rounded-lg text-xs transition mt-2 border-t border-white/10 pt-2"
@@ -191,7 +240,20 @@ function Nav() {
                         <a href="#core-features" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Features</a>
                         <a href="#fleet" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Fleet</a>
                         <a href="#ride-sharing" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Ride Sharing</a>
-                        <a href="/partner/onboarding/vehicle" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Become a Partner</a>
+                        
+                        {userData?.role === "partner" ? (
+                            <div className="border-t border-white/10 pt-3 space-y-1">
+                                <p className="text-[10px] uppercase font-bold text-purple-400 tracking-wider px-2 mb-1">Partner Navigation</p>
+                                <Link href="/partner" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Partner Dashboard</Link>
+                                <Link href="/partner/bookings" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-purple-300 hover:text-white">Bookings</Link>
+                                <Link href="/partner/pending-requests" onClick={() => setMenuOpen(false)} className="flex items-center justify-between p-2 text-xs font-semibold text-amber-400 hover:text-white">
+                                    <span>Ride Requests</span>
+                                    {pendingCount > 0 && <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-black">{pendingCount}</span>}
+                                </Link>
+                            </div>
+                        ) : (
+                            <a href="/partner/onboarding/vehicle" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Become a Partner</a>
+                        )}
 
                         {!userData ? (
                             <button

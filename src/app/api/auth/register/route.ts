@@ -43,22 +43,36 @@ export async function POST(req: NextRequest) {
         }
 
 
-        await sendMail(
-            email,
-            "Your OTP for Email Verification",
-            `<h2>Your Email Verification OTP is <strong>${otp}</strong></h2>`
-        )
        
 
-        
+        try {
+            await sendMail(
+                email,
+                "Your OTP for Email Verification",
+                `<h2>Your Email Verification OTP is <strong>${otp}</strong></h2>`
+            );
+        } catch (emailError: any) {
+            console.error("Failed to send verification email:", emailError?.message || emailError);
+            if (emailError?.message?.includes("535") || emailError?.message?.includes("BadCredentials") || emailError?.message?.includes("Invalid login")) {
+                return NextResponse.json(
+                    { message: "Gmail authentication failed (Invalid App Password). Please update EMAIL and PASS in .env.local with a valid Google App Password." },
+                    { status: 500 }
+                );
+            }
+            return NextResponse.json(
+                { message: "Failed to send OTP verification email. Please check server email credentials." },
+                { status: 500 }
+            );
+        }
+
         return NextResponse.json(
             user,
             { status: 201 }
         )
 
-    } catch (error) {
+    } catch (error: any) {
         return NextResponse.json(
-            { message: `register error ${error}` },
+            { message: error?.message || `register error ${error}` },
             { status: 500 }
         )
     }

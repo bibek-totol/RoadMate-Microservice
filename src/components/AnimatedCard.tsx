@@ -5,9 +5,9 @@ function AnimatedCard({title,icon,children}:any) {
   return (
     <motion.div 
      whileHover={{ y: -4 }}
-      className="bg-white rounded-4xl p-8 shadow-xl space-y-6"
+      className="bg-white text-gray-900 rounded-4xl p-8 shadow-xl space-y-6"
     >
-        <div className='flex items-center gap-2 font-semibold'>
+        <div className='flex items-center gap-2 font-bold text-gray-900 text-base'>
             {icon}
             {title}
         </div>

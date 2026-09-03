@@ -6,8 +6,8 @@ import { ArrowLeft, CheckCircle, CircleDashed, Clock, ImageIcon, IndianRupee, Sh
 import { useParams, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
-import { img } from 'motion/react-client'
 import AnimatedCard from '@/components/AnimatedCard'
+
 interface IVehicle {
     owner: IUser
     type: vehicleType,
@@ -24,6 +24,7 @@ interface IVehicle {
     updatedAt: Date
 
 }
+
 function page() {
     const { id } = useParams()
     const [data, setData] = useState<IVehicle>()
@@ -33,81 +34,84 @@ function page() {
     const [rejectionReason, setRejectionReason] = useState("")
     const [approveLoading, setApproveLoading] = useState(false)
     const [rejectLoading, setRejectLoading] = useState(false)
-    const [loading,setLoading]=useState()
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         const load = async () => {
             try {
                 const result = await axios.get(`/api/admin/reviews/vehicle/${id}`)
                 setData(result.data)
+                setLoading(false)
             } catch (error: any) {
-                console.log(error.response.data.message ?? error)
+                console.log(error.response?.data?.message ?? error)
+                setLoading(false)
             }
         }
         load()
     }, [id])
 
-    
     if (loading) {
         return (
-            <div className="min-h-screen grid place-items-center text-gray-500">
-                Loading Partner...
+            <div className="min-h-screen grid place-items-center text-gray-700 bg-gray-50 font-medium">
+                Loading Vehicle...
             </div>
         )
     }
 
-    const handleApprove=async ()=>{
+    const handleApprove = async () => {
         setApproveLoading(true)
-try {
-    const {data}=await axios.get(`/api/admin/reviews/vehicle/${id}/approve`)
-    console.log(data)
-    setApproveLoading(false)
-    router.push("/")
-} catch (error) {
-    console.log(error)
-     setApproveLoading(false)
-}
+        try {
+            const { data } = await axios.get(`/api/admin/reviews/vehicle/${id}/approve`)
+            console.log(data)
+            setApproveLoading(false)
+            router.push("/")
+        } catch (error) {
+            console.log(error)
+            setApproveLoading(false)
+        }
     }
-     const handleReject=async ()=>{
-      setRejectLoading(true)
-try {
-    const {data}=await axios.post(`/api/admin/reviews/vehicle/${id}/reject`,{
-       reason:rejectionReason
-    })
-    console.log(data)
-    setRejectLoading(false)
-     router.push("/")
-} catch (error) {
-    console.log(error)
-    setRejectLoading(false)
-}
+
+    const handleReject = async () => {
+        setRejectLoading(true)
+        try {
+            const { data } = await axios.post(`/api/admin/reviews/vehicle/${id}/reject`, {
+                reason: rejectionReason
+            })
+            console.log(data)
+            setRejectLoading(false)
+            router.push("/")
+        } catch (error) {
+            console.log(error)
+            setRejectLoading(false)
+        }
     }
 
     return (
-        <div className='min-h-screen bg-gray-50'>
-            <div className='sticky top-0 z-40 backdrop-blur-xl bg-white/70 border-b'>
+        <div className='min-h-screen bg-gradient-to-br from-gray-100 via-gray-50 to-gray-200 text-gray-900'>
+            <div className='sticky top-0 z-40 backdrop-blur-xl bg-white/80 border-b border-gray-200 shadow-sm'>
                 <div className='max-w-7xl mx-auto px-4 h-16 flex items-center gap-4'>
-                    <button className='w-10 h-10 rounded-full border flex items-center justify-center hover:bg-gray-100 transition' onClick={() => router.back()}>
+                    <button className='w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 text-gray-800 transition' onClick={() => router.back()}>
                         <ArrowLeft size={18} />
                     </button>
                     <div className='flex-1'>
-                        <div className='font-semibold text-lg'>{data?.owner.name}</div>
-                        <div className='text-xs text-gray-500'>{data?.owner.email}</div>
+                        <div className='font-bold text-lg text-gray-900'>{data?.owner.name}</div>
+                        <div className='text-xs font-medium text-gray-600'>{data?.owner.email}</div>
                     </div>
                     {
                         data?.status === "approved" ? (
-                            <div className='px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-2 bg-green-100 text-green-700'>
+                            <div className='px-4 py-2 rounded-full text-xs font-bold inline-flex items-center gap-2 bg-emerald-100 text-emerald-800 border border-emerald-200'>
                                 <CheckCircle size={14} />
                                 Approved
                             </div>
                         ) : data?.status === "rejected" ? (
-                            <div className='px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-2 bg-red-100 text-red-700'>
+                            <div className='px-4 py-2 rounded-full text-xs font-bold inline-flex items-center gap-2 bg-rose-100 text-rose-800 border border-rose-200'>
                                 <XCircle size={14} />
                                 Rejected
                             </div>
                         ) : (
-                            <div className='px-4 py-2 rounded-full text-xs font-semibold inline-flex items-center gap-2 bg-yellow-100 text-yellow-700'>
+                            <div className='px-4 py-2 rounded-full text-xs font-bold inline-flex items-center gap-2 bg-amber-100 text-amber-900 border border-amber-200'>
                                 <Clock size={14} />
-                                Pending
+                                Pending Review
                             </div>
                         )
                     }
@@ -118,47 +122,47 @@ try {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="rounded-3xl overflow-hidden shadow-xl bg-white"
+                    className="rounded-3xl overflow-hidden shadow-xl bg-white border border-gray-200"
                 >
                     {data?.imageUrl ? (
                         <img src={data.imageUrl} alt="vehicle" className='w-full h-[450px] object-cover' />
                     ) : (
-                        <div className='h-[450px] grid place-items-center text-gray-300'>
-                            <ImageIcon size={25} />
+                        <div className='h-[450px] grid place-items-center text-gray-400 font-medium'>
+                            <ImageIcon size={32} />
+                            <span>No Image Uploaded</span>
                         </div>
-                    )
-
-                    }
+                    )}
                 </motion.div>
                 <div className='space-y-8'>
-                    <AnimatedCard title={"Vehicle Details"} icon={<Truck size={18} />}>
-                        <div className='flex justify-between text-sm'>
-                            <span className='text-gray-500'>Vehicle Type</span>
-                            <span className='font-semibold'>{data?.type || "-"}</span>
+                    <AnimatedCard title={"Vehicle Details"} icon={<Truck size={18} className="text-purple-600" />}>
+                        <div className='flex justify-between text-sm py-1 border-b border-gray-100'>
+                            <span className='text-gray-600 font-medium'>Vehicle Type</span>
+                            <span className='font-bold text-gray-900 capitalize'>{data?.type || "-"}</span>
                         </div>
 
-                        <div className='flex justify-between text-sm'>
-                            <span className='text-gray-500'>Registration Number</span>
-                            <span className='font-semibold'>{data?.number || "-"}</span>
+                        <div className='flex justify-between text-sm py-1 border-b border-gray-100'>
+                            <span className='text-gray-600 font-medium'>Registration Number</span>
+                            <span className='font-bold text-gray-900 uppercase font-mono'>{data?.number || "-"}</span>
                         </div>
-                        <div className='flex justify-between text-sm'>
-                            <span className='text-gray-500'>Model</span>
-                            <span className='font-semibold'>{data?.vehicleModel || "-"}</span>
+                        <div className='flex justify-between text-sm py-1'>
+                            <span className='text-gray-600 font-medium'>Model</span>
+                            <span className='font-bold text-gray-900'>{data?.vehicleModel || "-"}</span>
                         </div>
                     </AnimatedCard>
-                    <AnimatedCard title={"Pricing Configuration"} icon={<IndianRupee size={18} />}>
-                        <div className='flex justify-between text-sm'>
-                            <span className='text-gray-500'>Base Fare</span>
-                            <span className='font-semibold flex items-center  '><IndianRupee size={13} />{data?.baseFare || 0}</span>
+
+                    <AnimatedCard title={"Pricing Configuration"} icon={<IndianRupee size={18} className="text-purple-600" />}>
+                        <div className='flex justify-between text-sm py-1 border-b border-gray-100'>
+                            <span className='text-gray-600 font-medium'>Base Fare</span>
+                            <span className='font-bold text-gray-900 flex items-center font-mono'>৳{data?.baseFare || 0}</span>
                         </div>
 
-                        <div className='flex justify-between text-sm'>
-                            <span className='text-gray-500'>Price Per KM</span>
-                            <span className=' font-semibold flex items-center  '><IndianRupee size={13} />{data?.pricePerKM || 0}</span>
+                        <div className='flex justify-between text-sm py-1 border-b border-gray-100'>
+                            <span className='text-gray-600 font-medium'>Price Per KM</span>
+                            <span className='font-bold text-gray-900 flex items-center font-mono'>৳{data?.pricePerKM || 0}</span>
                         </div>
-                        <div className='flex justify-between text-sm'>
-                            <span className='text-gray-500'>Waiting Charge</span>
-                            <span className='font-semibold flex items-center  '><IndianRupee size={13} />{data?.waitingCharge || "-"}</span>
+                        <div className='flex justify-between text-sm py-1'>
+                            <span className='text-gray-600 font-medium'>Waiting Charge</span>
+                            <span className='font-bold text-gray-900 flex items-center font-mono'>৳{data?.waitingCharge || "-"}</span>
                         </div>
                     </AnimatedCard>
 
@@ -166,31 +170,31 @@ try {
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="bg-white rounded-[32px] p-8 shadow-xl space-y-6"
+                            className="bg-white rounded-[32px] p-8 shadow-xl space-y-6 text-gray-900 border border-gray-100"
                         >
-                            <div className='flex items-center gap-2 font-semibold'>
-                                <ShieldCheck size={18} />
+                            <div className='flex items-center gap-2 font-bold text-gray-900 text-base'>
+                                <ShieldCheck size={18} className="text-emerald-600" />
                                 Admin Check
                             </div>
-                            <p className='text-sm text-gray-500'>
-                                Verify documents carefully before approving.
+                            <p className='text-sm text-gray-600 font-medium'>
+                                Verify details carefully before approving.
                             </p>
 
                             <div className='flex flex-col gap-4'>
-
                                 <button
-                                    className='py-3 rounded-2xl bg-linear-to-r from-black to-gray-800 text-white font-semibold hover:opacity-90 transition'
+                                    className='py-3.5 rounded-2xl bg-neutral-900 text-white font-bold hover:bg-neutral-800 transition shadow-md'
                                     onClick={() => setShowApprove(true)}
-                                >Approve
+                                >
+                                    Approve Vehicle
                                 </button>
 
                                 <button
-                                    className='py-3 rounded-2xl border font-semibold hover:bg-gray-100 transition'
+                                    className='py-3.5 rounded-2xl border border-rose-200 bg-rose-50 text-rose-700 font-bold hover:bg-rose-100 transition shadow-sm'
                                     onClick={() => setShowReject(true)}
-                                >Reject
+                                >
+                                    Reject Vehicle
                                 </button>
                             </div>
-
                         </motion.div>
                     )}
                 </div>
@@ -207,19 +211,18 @@ try {
                         <motion.div
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
-                            className="bg-white rounded-3xl p-6 w-full max-w-sm"
+                            className="bg-white text-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl"
                         >
-                            <h2 className='text-lg font-bold'>Approve Vehicle?</h2>
-                            <p className='text-sm text-gray-500 mt-2'>Confirm all information has been verified.</p>
+                            <h2 className='text-lg font-bold text-gray-900'>Approve Vehicle?</h2>
+                            <p className='text-sm text-gray-600 mt-2 font-medium'>Confirm all vehicle pricing and details.</p>
                             <div className='flex gap-3 mt-6'>
-                                <button className='flex-1 py-2 rounded-xl border' onClick={() => setShowApprove(false)}>Cancel</button>
-                                <button className='flex-1 flex items-center justify-center py-2 rounded-xl bg-black text-white'
+                                <button className='flex-1 py-2.5 rounded-xl border border-gray-300 text-gray-800 font-semibold hover:bg-gray-100 transition' onClick={() => setShowApprove(false)}>Cancel</button>
+                                <button className='flex-1 flex items-center justify-center py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition shadow-md'
                                     onClick={handleApprove}
                                     disabled={approveLoading}
                                 >{approveLoading ? <CircleDashed className='text-white animate-spin' /> : "Yes, Approve"}</button>
                             </div>
                         </motion.div>
-
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -235,24 +238,24 @@ try {
                         <motion.div
                             initial={{ scale: 0.9 }}
                             animate={{ scale: 1 }}
-                            className="bg-white rounded-3xl p-6 w-full max-w-sm"
+                            className="bg-white text-gray-900 rounded-3xl p-6 w-full max-w-sm shadow-2xl"
                         >
-                            <h2 className='text-lg font-bold'>Reject Vehicle?</h2>
-                            <p className='text-sm text-gray-500 mt-2'>
-
+                            <h2 className='text-lg font-bold text-gray-900'>Reject Vehicle?</h2>
+                            <div className='mt-2'>
+                                <p className='text-sm text-gray-600 font-medium mb-2'>Provide a reason for rejection:</p>
                                 <textarea
                                     placeholder="Enter rejection reason (required)"
                                     value={rejectionReason}
                                     onChange={(e) => setRejectionReason(e.target.value)}
-                                    className="w-full mt-3 border rounded-xl p-3 text-sm"
+                                    className="w-full border border-gray-300 rounded-xl p-3 text-sm text-gray-900 bg-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                                    rows={3}
                                 />
-                            </p>
+                            </div>
                             <div className='flex gap-3 mt-6'>
-                                <button className='flex-1 py-2 rounded-xl border' onClick={() => setShowReject(false)}>Cancel</button>
-                                <button className='flex-1 py-2 flex items-center justify-center rounded-xl bg-black  text-white' onClick={handleReject} disabled={rejectLoading}>{rejectLoading ? <CircleDashed className='text-white animate-spin' /> : "Reject"}</button>
+                                <button className='flex-1 py-2.5 rounded-xl border border-gray-300 text-gray-800 font-semibold hover:bg-gray-100 transition' onClick={() => setShowReject(false)}>Cancel</button>
+                                <button className='flex-1 py-2.5 flex items-center justify-center rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold transition shadow-md' onClick={handleReject} disabled={rejectLoading}>{rejectLoading ? <CircleDashed className='text-white animate-spin' /> : "Reject"}</button>
                             </div>
                         </motion.div>
-
                     </motion.div>
                 )}
             </AnimatePresence>

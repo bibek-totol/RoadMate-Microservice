@@ -9,6 +9,7 @@ type Earning = {
     date: string,
     earnings: number
 }
+
 function AdminEarning() {
     const [earningData, setEarningData] = useState<Earning[]>([])
     useEffect(() => {
@@ -24,7 +25,6 @@ function AdminEarning() {
         fetchEarning()
     }, [])
 
-
     const total = earningData.reduce((a, d) => a + d.earnings, 0)
     const avg = earningData.length ? Math.round(total / earningData.length) : 0
     const max = earningData.length ? Math.max(...earningData.map((d) => d.earnings)) : 0
@@ -35,9 +35,8 @@ function AdminEarning() {
     const deltaPositive = delta >= 0
     const deltaPct = yesterDay ? Math.abs(Math.round((delta / yesterDay.earnings) * 100)) : 0;
 
-
     const fmt = (n: number) => {
-        return "₹" + n.toLocaleString()
+        return "৳" + n.toLocaleString()
     }
 
     const metrics = [
@@ -69,23 +68,22 @@ function AdminEarning() {
         },
     ];
 
-
     return (
-        <div className='bg-white rounded-3xl border border-gray-100 shadow-sm p-6 w-full'>
+        <div className='bg-white rounded-3xl border border-gray-200 shadow-sm p-6 w-full text-gray-900'>
             <div className='flex items-start justify-between mb-6 flex-wrap gap-4'>
                 <div>
-                    <span className='inline-block text-[11px] font-semibold tracking-widest uppercase text-blue-600 bg-blue-50 px-3 py-1 rounded-full mb-2'>
+                    <span className='inline-block text-[11px] font-bold tracking-widest uppercase text-purple-700 bg-purple-50 px-3 py-1 rounded-full mb-2 border border-purple-100'>
                         Admin Dashboard
                     </span>
                     <h2 className='text-xl font-bold text-gray-900 tracking-tight'>
                         Daily Earnings
                     </h2>
-                    <p className='text-sm text-gray-400 mt-0.5'>
+                    <p className='text-sm text-gray-600 font-medium mt-0.5'>
                         Last 7 days performance
                     </p>
                 </div>
                 <div className='text-right'>
-                    <p className='text-[11px] font-semibold text-gray-400 uppercase tracking-widest mb-1'>
+                    <p className='text-[11px] font-bold text-gray-600 uppercase tracking-widest mb-1'>
                         Weekly total
                     </p>
                     <motion.div
@@ -101,7 +99,6 @@ function AdminEarning() {
                         }`}>
                         {deltaPositive ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
                         <span>{deltaPct}% vs yesterday</span>
-
                     </div>
                 </div>
             </div>
@@ -112,16 +109,14 @@ function AdminEarning() {
                         initial={{ opacity: 0, y: 12 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: i * 0.07, duration: 0.4 }}
-                        className="bg-gray-50 rounded-2xl p-4"
+                        className="bg-gray-50 border border-gray-100 rounded-2xl p-4"
                     >
-
-                        <div className={`flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider mb-2 ${m.color}`}>
+                        <div className={`flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider mb-2 ${m.color}`}>
                             <span className={`${m.bg} p-1 rounded-lg ${m.color}`}>{m.icon}</span>
                             {m.label}
                         </div>
                         <p className='text-lg font-bold text-gray-900 font-mono leading-none'>{m.value}</p>
-                        <p className='text-[11px] text-gray-400 mt-1'>{m.sub}</p>
-
+                        <p className='text-[11px] text-gray-600 font-medium mt-1.5'>{m.sub}</p>
                     </motion.div>
                 ))}
             </div>
@@ -138,25 +133,24 @@ function AdminEarning() {
                             data={earningData}
                             barCategoryGap={"30%"}
                         >
-                            <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" vertical={false} />
+                            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
                             <XAxis
                                 dataKey="date"
-                                tick={{ fontSize: 11, fill: "#9ca3af", fontWeight: 500 }}
+                                tick={{ fontSize: 11, fill: "#4b5563", fontWeight: 600 }}
                                 axisLine={false}
                                 tickLine={false}
                             />
 
                             <YAxis
-                                tick={{ fontSize: 11, fill: "#9ca3af" }}
+                                tick={{ fontSize: 11, fill: "#4b5563", fontWeight: 600 }}
                                 axisLine={false}
                                 tickLine={false}
-                                tickFormatter={(v) => "₹" + (v >= 1000 ? (v / 1000).toFixed(0) + "k" : v)}
+                                tickFormatter={(v) => "৳" + (v >= 1000 ? (v / 1000).toFixed(0) + "k" : v)}
                             />
                             <Bar
                                 dataKey="earnings" radius={[8, 8, 3, 3]}
                             >
                                 {earningData.map((d, i) => {
-
                                     const isToday = i === earningData.length - 1;
                                     const isBest = d.earnings === max && !isToday;
                                     return (
@@ -167,20 +161,16 @@ function AdminEarning() {
                                                     ? "#10b981"
                                                     : isBest
                                                         ? "#8b5cf6"
-                                                        : "#bfdbfe"
+                                                        : "#93c5fd"
                                             }
                                         />
                                     )
                                 })}
-
                             </Bar>
                         </BarChart>
                     </ResponsiveContainer>
                 </motion.div>
-
             </AnimatePresence>
-
-
         </div>
     )
 }

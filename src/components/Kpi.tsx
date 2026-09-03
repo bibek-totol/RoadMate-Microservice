@@ -34,22 +34,22 @@ function Kpi({ label, value, icon, variant }: any) {
     <motion.div
       whileHover={{ y: -4 }}
       transition={{ duration: 0.2 }}
-      className={`bg-white rounded-2xl p-5 border border-zinc-200/90 shadow-sm cursor-default relative overflow-hidden transition-all ${cfg.cardBorder}`}
+      className={`bg-white rounded-2xl p-5 border border-zinc-200 shadow-sm cursor-default relative overflow-hidden transition-all text-zinc-900 ${cfg.cardBorder}`}
     >
       <div className="flex items-center justify-between mb-3">
-        <p className="text-[10px] font-black uppercase tracking-widest text-zinc-500">{label}</p>
+        <p className="text-[10px] font-extrabold uppercase tracking-widest text-zinc-700">{label}</p>
         <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${cfg.iconBg} ${cfg.iconColor}`}>
           {icon}
         </div>
       </div>
 
       <motion.div
-        className="text-3xl font-black text-zinc-950 tracking-tight"
+        className="text-3xl font-black text-zinc-900 tracking-tight"
         initial={{ opacity: 0, y: 5 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {value}
+        {value ?? 0}
       </motion.div>
     </motion.div>
   )
