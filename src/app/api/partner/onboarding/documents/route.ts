@@ -41,7 +41,7 @@ export async function POST(req:NextRequest) {
         if(aadhar){
             const url=await uploadOnCloudinary(aadhar)
             if(!url){
-                return Response.json({ message: "aadhar upload failed" }
+                return Response.json({ message: "ID upload failed" }
                 , { status: 500 }
             )
             }

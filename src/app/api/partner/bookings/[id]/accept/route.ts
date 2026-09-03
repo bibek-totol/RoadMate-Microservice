@@ -25,7 +25,7 @@ export async function GET(
 
   await axios.post(`${process.env.NEXT_PUBLIC_SOCKET_SERVER_URL}/emit`,{
            event:"accept-booking",
-           userId:booking.user,
+           userId: booking.user?._id ? String(booking.user._id) : String(booking.user),
            data:booking.bookingStatus
         })
 

@@ -9,6 +9,8 @@ import { AnimatePresence } from 'motion/react'
 import { motion } from "motion/react"
 import ContentList from './ContentList'
 import AdminEarning from './AdminEarning'
+import AdminFooter from './AdminFooter'
+import AdminUsers from './AdminUsers'
 type Stats = {
   totalApprovedPartners: number
   totalPartners: number
@@ -16,7 +18,7 @@ type Stats = {
   totalRejectedPartners: number
 }
 
-type Tab = "partner" | "kyc" | "vehicle"
+type Tab = "partner" | "kyc" | "vehicle" | "people"
 function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>("partner")
@@ -111,6 +113,14 @@ function AdminDashboard() {
           >
             Pending Vehicle Reviews
           </TabButton>
+
+          <TabButton
+            active={activeTab == "people"}
+            icon={<Users size={15} />}
+            onClick={() => setActiveTab("people")}
+          >
+            Users & Partners
+          </TabButton>
         </div>
         <AnimatePresence mode='wait'>
           <motion.div
@@ -124,6 +134,7 @@ function AdminDashboard() {
 {activeTab=="partner"&& <ContentList data={partnerReviews ?? []} type={"partner"}/>}
 {activeTab=="kyc"&& <ContentList data={pendingkyc ?? []} type={"kyc"}/>}
 {activeTab=="vehicle"&& <ContentList data={vehicleReviews ?? []} type={"vehicle"}/>}
+{activeTab=="people"&& <AdminUsers />}
           </motion.div>
         </AnimatePresence>
 
@@ -131,7 +142,7 @@ function AdminDashboard() {
 
       </main>
 
-
+      <AdminFooter />
     </div>
   )
 }

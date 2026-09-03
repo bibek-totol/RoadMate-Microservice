@@ -171,10 +171,9 @@ function SearchPage() {
                                     key="live"
                                     initial={{ opacity: 0 }}
                                     animate={{ opacity: 1 }}
-                                    className="flex items-center gap-1.5 bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1.5 rounded-full"
+                                    className="flex items-center gap-1.5  px-3.5 py-1.5 rounded-full"
                                 >
-                                    <Zap size={12} className="text-emerald-400 fill-emerald-400" />
-                                    <span className='text-emerald-400 text-xs font-bold'>Live Dispatch</span>
+                                    
                                 </motion.div>
                             ) : null}
                         </AnimatePresence>

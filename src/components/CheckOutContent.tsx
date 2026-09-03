@@ -68,17 +68,23 @@ function CheckOutContent() {
 
   useEffect(() => {
     const socket = getSocket()
+    if (booking?.user) {
+      const uId = typeof booking.user === "object" ? booking.user._id : booking.user;
+      socket.emit("identity", uId)
+    }
     socket.on("accept-booking", (data) => {
-      setStatus(data)
+      const newStatus = typeof data === "string" ? data : (data?.bookingStatus || data);
+      if (newStatus) setStatus(newStatus as Status);
     })
     socket.on("reject-booking", (data) => {
-      setStatus(data)
+      const newStatus = typeof data === "string" ? data : (data?.bookingStatus || data);
+      if (newStatus) setStatus(newStatus as Status);
     })
     return () => {
       socket.off("accept-booking")
       socket.off("reject-booking")
     }
-  }, [])
+  }, [booking?.user])
 
   const handleConfirmPayment = async () => {
     if (!booking || !paymentMethod) return;
@@ -112,8 +118,14 @@ function CheckOutContent() {
   const fetchActiveBooking = async () => {
     try {
       const { data } = await axios.get("/api/booking/active")
-      setBooking(data.booking)
-      setStatus(data.booking.bookingStatus || data.booking)
+      if (data.booking && typeof data.booking === "object") {
+        setBooking(data.booking)
+        if (data.booking.bookingStatus) {
+          setStatus(data.booking.bookingStatus)
+        }
+      } else if (data.booking === "idle") {
+        setStatus("idle")
+      }
     } catch (error) {
       console.log(error)
     }
@@ -131,6 +143,15 @@ function CheckOutContent() {
   useEffect(() => {
     fetchActiveBooking()
   }, [])
+
+  // Poll for active booking status updates every 2s while in "requested" status
+  useEffect(() => {
+    if (status !== "requested") return;
+    const interval = setInterval(() => {
+      fetchActiveBooking()
+    }, 2000)
+    return () => clearInterval(interval)
+  }, [status])
 
   useEffect(() => {
     if (status !== "awaiting_payment") return;
@@ -153,7 +174,7 @@ function CheckOutContent() {
           className="mb-8"
         >
           <div className='flex items-center gap-2 mb-2'>
-            <div className='h-px w-8 bg-purple-500' />
+            <div className='h-px ' />
             <span className='text-[10px] font-black uppercase tracking-[0.2em] text-purple-400'>Secure Checkout</span>
           </div>
           <h1 className='text-3xl sm:text-4xl font-black tracking-tight text-white'>Review & Confirm Ride</h1>

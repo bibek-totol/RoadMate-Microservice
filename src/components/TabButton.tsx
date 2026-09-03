@@ -15,13 +15,15 @@ function TabButton({ active, count, onClick, icon, children }: any) {
         >
             <span className={`flex items-center ${active ? "text-white" : "text-gray-600"}`}>{icon}</span>
             <span className='inline'>{children}</span>
-            <span className={`min-w-[22px] h-5 px-1.5 text-[11px] font-extrabold rounded-full flex items-center justify-center transition-all
-        ${active
-          ? "bg-white text-black"
-          : count > 0
-          ? "bg-amber-500 text-black font-bold"
-          : "bg-gray-200 text-gray-700"
-        }`}>{count}</span>
+            {count !== undefined && count !== null && (
+                <span className={`min-w-[22px] h-5 px-1.5 text-[11px] font-extrabold rounded-full flex items-center justify-center transition-all
+            ${active
+              ? "bg-white text-black"
+              : count > 0
+              ? "bg-amber-500 text-black font-bold"
+              : "bg-gray-200 text-gray-700"
+            }`}>{count}</span>
+            )}
         </motion.div>
     )
 }

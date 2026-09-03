@@ -27,6 +27,8 @@ function Nav() {
         await signOut({ redirect: false })
         dispatch(setUserData(null))
         setProfileOpen(false)
+        router.push('/')
+        router.refresh()
     }
 
     const fetchCount = async () => {
@@ -83,9 +85,12 @@ function Nav() {
 
                         {/* Nav Links */}
                         <nav className="hidden md:flex items-center gap-7">
-                            <a href="#core-features" className="text-xs font-medium text-zinc-300 hover:text-white transition">Features</a>
-                            <a href="#fleet" className="text-xs font-medium text-zinc-300 hover:text-white transition">Fleet</a>
-                            <a href="#ride-sharing" className="text-xs font-medium text-zinc-300 hover:text-white transition">Ride Sharing</a>
+                            {(userData?.role === "user" || !userData) && (
+                                <>
+                                    <a href="#core-features" className="text-xs font-medium text-zinc-300 hover:text-white transition">Features</a>
+                                    
+                                </>
+                            )}
                             
                             {userData?.role === "partner" ? (
                                 <>
@@ -237,9 +242,22 @@ function Nav() {
                         exit={{ opacity: 0, y: -10 }}
                         className="fixed top-20 inset-x-0 bg-[#0b0c10]/95 backdrop-blur-xl border-b border-white/10 p-5 z-50 md:hidden space-y-3"
                     >
-                        <a href="#core-features" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Features</a>
+
+
+                        {
+                            userData?.role === "user" || !userData ?  (
+                                <>
+                               <a href="#core-features" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Features</a>
                         <a href="#fleet" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Fleet</a>
                         <a href="#ride-sharing" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Ride Sharing</a>
+                                </>
+                            )
+                            :(
+                                <>
+                                </>
+                            )
+                        }
+                       
                         
                         {userData?.role === "partner" ? (
                             <div className="border-t border-white/10 pt-3 space-y-1">
@@ -251,9 +269,9 @@ function Nav() {
                                     {pendingCount > 0 && <span className="px-2 py-0.5 text-[10px] font-bold rounded-full bg-amber-500 text-black">{pendingCount}</span>}
                                 </Link>
                             </div>
-                        ) : (
+                        ) : userData?.role !== "admin" ? (
                             <a href="/partner/onboarding/vehicle" onClick={() => setMenuOpen(false)} className="block p-2 text-xs font-semibold text-zinc-300 hover:text-white">Become a Partner</a>
-                        )}
+                        ) : null}
 
                         {!userData ? (
                             <button

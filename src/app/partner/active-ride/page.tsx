@@ -234,7 +234,7 @@ function page() {
 
     const cfg = STATUS_LABEL[booking?.bookingStatus! ?? "confirmed"]
     const isActive = ["confirmed", "started"].includes(status)
-    const canChat = booking?.bookingStatus === "confirmed"
+    const canChat = ["confirmed", "started"].includes(booking?.bookingStatus || "")
     const displayEta = status === "confirmed" ? etaToPickUp : etaToDrop
     const displayDistance = status === "confirmed" ? distanceToPickUp : distanceToDrop
     const paymentStatus = PAYMENT_BADGE[booking?.paymentStatus! ?? "pending"]

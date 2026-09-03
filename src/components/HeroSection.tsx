@@ -172,8 +172,8 @@ export default function HeroSection({ onAuthRequired }: { onAuthRequired: () => 
                     <div className="w-full flex flex-col items-center text-center pointer-events-auto">
 
                         {/* Stage 1: Headline (frames 0-129) */}
-                        <div className={`transition-all duration-700 ${currentFrame < 130 ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6 pointer-events-none absolute"}`}>
-                            {/* <motion.h1
+                        <div className={`transition-all duration-700 -mt-12 sm:-mt-16 md:-mt-24 ${currentFrame < 130 ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-6 pointer-events-none absolute"}`}>
+                            <motion.h1
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.7 }}
@@ -182,9 +182,9 @@ export default function HeroSection({ onAuthRequired }: { onAuthRequired: () => 
                             >
                                 Book Any Vehicle. <br className="hidden sm:inline" />
                                 Travel & Transport Faster.
-                            </motion.h1> */}
+                            </motion.h1>
 
-                            <div className="mt-14 flex flex-wrap items-center justify-center gap-4">
+                            <div className="mt-20 flex flex-wrap items-center justify-center gap-4">
                                 <button
                                     onClick={handleBookingClick}
                                     className="px-8 py-3.5 rounded-full bg-white text-black font-bold text-sm hover:bg-zinc-100 transition-all flex items-center gap-2 shadow-2xl hover:scale-105 active:scale-95"

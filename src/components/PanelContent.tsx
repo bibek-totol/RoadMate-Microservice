@@ -79,29 +79,42 @@ function PanelContent({ isActive, displayDistance, displayEta, cfg, status, book
                         </div>
                     </div>
 
-                    {isActive && (
-                        <div className='flex gap-2.5 mt-3'>
-                            {booking.userMobileNumber && (
-                                <a
-                                    href={`tel:${booking.userMobileNumber}`}
-                                    className={`flex items-center justify-center gap-2 bg-[#181926] hover:bg-[#202233] border border-white/10 text-white py-3 rounded-xl text-xs font-bold transition-all ${canChat ? "flex-1" : "w-full"}`}
-                                >
-                                    <Phone size={14} className="text-emerald-400" /> Call Driver
-                                </a>
-                            )}
-                            {canChat && (
-                                <button
-                                    onClick={onChatToggle}
-                                    className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-extrabold transition-all ${
-                                        chatOpen ? "bg-white text-black" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-600/20"
-                                    }`}
-                                >
-                                    <MessageCircle size={14} />
-                                    {chatOpen ? "Close Chat" : "Live Chat"}
-                                </button>
-                            )}
-                        </div>
-                    )}
+                    {isActive && (() => {
+                        const targetPhone = currentRole === "user"
+                            ? (booking.driverMobileNumber || booking.driver?.mobileNumber)
+                            : (booking.userMobileNumber || booking.user?.mobileNumber);
+                        const phoneLabel = currentRole === "user" ? "Call Driver" : "Call Customer";
+                        return (
+                            <div className='flex gap-2.5 mt-3'>
+                                {targetPhone ? (
+                                    <a
+                                        href={`tel:${targetPhone}`}
+                                        className={`flex items-center justify-center gap-2 bg-[#181926] hover:bg-[#202233] border border-white/10 text-white py-3 rounded-xl text-xs font-bold transition-all ${canChat ? "flex-1" : "w-full"}`}
+                                    >
+                                        <Phone size={14} className="text-emerald-400" /> {phoneLabel}
+                                    </a>
+                                ) : (
+                                    <button
+                                        disabled
+                                        className={`flex items-center justify-center gap-2 bg-[#181926] border border-white/10 text-zinc-500 py-3 rounded-xl text-xs font-bold opacity-60 cursor-not-allowed ${canChat ? "flex-1" : "w-full"}`}
+                                    >
+                                        <Phone size={14} className="text-zinc-500" /> {phoneLabel} (N/A)
+                                    </button>
+                                )}
+                                {canChat && (
+                                    <button
+                                        onClick={onChatToggle}
+                                        className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-xs font-extrabold transition-all ${
+                                            chatOpen ? "bg-white text-black" : "bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-600/20"
+                                        }`}
+                                    >
+                                        <MessageCircle size={14} />
+                                        {chatOpen ? "Close Chat" : "Live Chat"}
+                                    </button>
+                                )}
+                            </div>
+                        );
+                    })()}
                 </motion.div>
             )}
 

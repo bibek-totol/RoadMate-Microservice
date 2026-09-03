@@ -46,8 +46,8 @@ function page() {
   const [pickUpSuggestions, setPickUpSuggestions] = useState<Place[]>([])
   const [dropSuggestions, setDropSuggestions] = useState<Place[]>([])
 
-  const progress = [!!vehicle, !!(mobile.length == 10), !!pickUp, !!drop].filter(Boolean).length
-  const canContinue = !!(vehicle && mobile && pickUp && drop && pickUpLat && pickUpLon && dropLat && dropLon)
+  const progress = [!!vehicle, !!(mobile.length == 11), !!pickUp, !!drop].filter(Boolean).length
+  const canContinue = !!(vehicle && mobile && mobile.length == 11 && pickUp && drop && pickUpLat && pickUpLon && dropLat && dropLon)
 
   const searchAddress = async (q: string, setResults: (r: Place[]) => void, restrict?: string | null) => {
     try {
@@ -238,13 +238,13 @@ function page() {
                 type="tel"
                 value={mobile}
                 onChange={e => setMobile(e.target.value.replace(/\D/g, ""))}
-                placeholder="Enter 10-digit mobile number"
+                placeholder="Enter 11-digit mobile number (e.g. 017XXXXXXXX)"
                 inputMode="numeric"
-                maxLength={15}
+                maxLength={11}
                 className="flex-1 bg-transparent text-sm font-semibold text-white placeholder:text-zinc-500 outline-none"
               />
               <AnimatePresence>
-                {mobile.length == 10 && (
+                {mobile.length == 11 && (
                   <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} exit={{ scale: 0 }}>
                     <CheckCircle size={16} className="text-emerald-400 fill-emerald-400/20 flex-shrink-0" />
                   </motion.div>

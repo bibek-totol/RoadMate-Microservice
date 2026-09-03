@@ -111,9 +111,7 @@ function page() {
                 {/* Header Banner */}
                 <div className='bg-[#0d0e15]/80 border-b border-white/10 backdrop-blur-xl pt-28 pb-8 relative z-10'>
                     <div className='max-w-5xl mx-auto px-4 sm:px-6'>
-                        <span className='inline-block text-[11px] font-semibold tracking-widest uppercase text-purple-300 bg-purple-500/10 border border-purple-500/30 px-3 py-1 rounded-full mb-2'>
-                            Real-Time Radar
-                        </span>
+                       
                         <h1 className='text-3xl sm:text-4xl font-extrabold text-white tracking-tight'>
                             Pending Ride <span className="bg-gradient-to-r from-purple-400 via-indigo-300 to-pink-400 text-transparent bg-clip-text">Requests</span>
                         </h1>
