@@ -3,7 +3,7 @@ import { RootState } from '@/redux/store';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { motion } from "motion/react"
-import { ArrowRight, Check, Clock, Lock, Video, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Check, Clock, Lock, Video } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import RejectionCard from './RejectionCard';

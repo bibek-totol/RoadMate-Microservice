@@ -1,4 +1,5 @@
 'use client'
+import 'leaflet/dist/leaflet.css'
 import React, { useEffect, useState } from 'react'
 import L from "leaflet"
 import { MapContainer, Marker, Polyline, TileLayer, useMap } from 'react-leaflet'
@@ -127,20 +128,20 @@ function SearchMap({ pickUp, drop, onChange, onDistance }: props) {
   }
 
   const dragPickUp = async (lat: number, lon: number) => {
-    const addr=await reverseGeoCoding(lat,lon)
+    const addr = await reverseGeoCoding(lat, lon)
     setP1([lat, lon])
     if (p2) {
       loadRoute([lat, lon], p2)
     }
-    onChange?.(addr!,drop)
+    onChange?.(addr || "", drop)
   }
   const dragDrop = async (lat: number, lon: number) => {
-    const addr=await reverseGeoCoding(lat,lon)
+    const addr = await reverseGeoCoding(lat, lon)
     setP2([lat, lon])
     if (p1) {
       loadRoute(p1, [lat, lon])
     }
-     onChange?.(pickUp,addr!)
+    onChange?.(pickUp, addr || "")
   }
 
 

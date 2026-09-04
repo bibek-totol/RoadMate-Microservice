@@ -7,14 +7,14 @@ import { usePathname, useRouter } from 'next/navigation'
 import AuthModal from './AuthModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/redux/store'
-import { Bike, Car, ChevronRight, LogOut, Menu, Moon, Sun, X, Github } from 'lucide-react'
+import { ChevronRight, LogOut, Menu, X, Github } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { setUserData } from '@/redux/userSlice'
 import axios from 'axios'
 import { getSocket } from '@/lib/socket'
 
 function Nav() {
-    const pathName = usePathname()
+    const _pathName = usePathname()
     const [authOpen, setAuthOpen] = useState(false)
     const [profileOpen, setProfileOpen] = useState(false)
     const [menuOpen, setMenuOpen] = useState(false)

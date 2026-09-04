@@ -1,7 +1,14 @@
 'use client'
 import React from 'react'
 
-function ActionCard({icon,title,button,onclick}:any) {
+interface ActionCardProps {
+  icon: React.ReactNode;
+  title: string;
+  button: string;
+  onclick?: () => void;
+}
+
+function ActionCard({icon,title,button,onclick}: ActionCardProps) {
   return (
     <div className=' bg-[#0d0e15]/90 
         backdrop-blur-xl

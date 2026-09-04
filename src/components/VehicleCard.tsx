@@ -4,7 +4,7 @@ import React from 'react'
 import { motion } from "motion/react"
 import { ArrowRight, Bike, Car, Clock, Gauge, IndianRupee, Star, Truck } from 'lucide-react';
 
-const TYPE_CONFIG: any = {
+const TYPE_CONFIG: Record<string, { label: string; Icon: React.ComponentType<{ size?: number; className?: string }> }> = {
     bike: { label: "Bike", Icon: Bike },
     auto: { label: "Auto", Icon: Car },
     car: { label: "Car", Icon: Car },

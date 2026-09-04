@@ -45,7 +45,7 @@ interface IBooking {
     updatedAt?: Date
 }
 
-function page() {
+export default function BookingsPage() {
     const [bookings, setBookings] = useState<IBooking[] | []>([])
     const [selectStatus, setSelectStatus] = useState("All")
     const [loading, setLoading] = useState(false)
@@ -58,8 +58,10 @@ function page() {
                 const { data } = await axios.get("/api/user/bookings")
                 setBookings(data)
                 setLoading(false)
-            } catch (error: any) {
-                console.log(error?.response?.data?.message)
+            } catch (error: unknown) {
+                if (axios.isAxiosError(error)) {
+                    console.log(error?.response?.data?.message)
+                }
                 setLoading(false)
             }
         }
@@ -251,7 +253,7 @@ function page() {
                                 <div className='flex items-center justify-between px-5 py-3.5 bg-[#181926] border-t border-white/10 text-xs'>
                                     <div className='flex items-center gap-2 text-zinc-400 font-medium'>
                                         <Calendar className="w-4 h-4 text-purple-400" />
-                                        <span>{formatDate(b.createdAt?.toString()!)}</span>
+                                        <span>{b.createdAt ? formatDate(b.createdAt.toString()) : ''}</span>
                                     </div>
                                     <div className="flex items-center gap-0.5 font-black text-amber-400 text-sm">
                                         <IndianRupee className="w-4 h-4" />
@@ -291,4 +293,3 @@ function page() {
     )
 }
 
-export default page

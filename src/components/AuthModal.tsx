@@ -21,8 +21,6 @@ function AuthModal({ open, onClose }: propType) {
     const [err, setErr] = useState("")
     const [otp, setOtp] = useState(["", "", "", "", "", ""])
 
-    const session = useSession()
-
     const handleSignUp = async () => {
         setLoading(true)
         try {
@@ -32,9 +30,13 @@ function AuthModal({ open, onClose }: propType) {
             setErr("")
             setStep("otp")
             setLoading(false)
-        } catch (error: any) {
+        } catch (error: unknown) {
             setLoading(false)
-            setErr(error.response?.data?.message ?? "Something went wrong")
+            if (axios.isAxiosError(error)) {
+                setErr(error.response?.data?.message ?? "Something went wrong")
+            } else {
+                setErr("Something went wrong")
+            }
         }
     }
 
@@ -48,9 +50,13 @@ function AuthModal({ open, onClose }: propType) {
             setErr("")
             setStep("login")
             setLoading(false)
-        } catch (error: any) {
+        } catch (error: unknown) {
             setLoading(false)
-            setErr(error.response?.data?.message ?? "Something went wrong")
+            if (axios.isAxiosError(error)) {
+                setErr(error.response?.data?.message ?? "Something went wrong")
+            } else {
+                setErr("Something went wrong")
+            }
         }
     }
 

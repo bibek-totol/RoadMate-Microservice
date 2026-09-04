@@ -3,8 +3,6 @@ import axios from 'axios'
 import { Send, Sparkles, X } from 'lucide-react'
 import React, { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
-import { useSelector } from 'react-redux'
-import { RootState } from '@/redux/store'
 import { getSocket } from '@/lib/socket'
 
 type message = {
@@ -15,9 +13,15 @@ type message = {
     createdAt: Date | string
 }
 
-function RideChat({ currentRole, bookingId, userName, driverName }: any) {
+interface RideChatProps {
+    currentRole: "user" | "driver";
+    bookingId: string;
+    userName?: string;
+    driverName?: string;
+}
+
+function RideChat({ currentRole, bookingId, userName, driverName }: RideChatProps) {
     const otherName = currentRole == "user" ? driverName : userName
-    const myName = currentRole == "user" ? userName : driverName
     const [messages, setMessages] = useState<message[]>([])
     const [lastMessage, setLastMessage] = useState("")
     const [text, setText] = useState("")
@@ -41,7 +45,7 @@ function RideChat({ currentRole, bookingId, userName, driverName }: any) {
 
         const tempMsg: message = {
             bookingId,
-            sender: currentRole,
+            sender: currentRole as "user" | "driver",
             text: msgText,
             createdAt: new Date().toISOString()
         }
@@ -76,8 +80,10 @@ function RideChat({ currentRole, bookingId, userName, driverName }: any) {
                     setLastMessage(data[data.length - 1].text)
                 }
             }
-        } catch (error: any) {
-            console.log(error?.response?.data?.message || error)
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                console.log(error?.response?.data?.message || error)
+            }
         }
     }
 

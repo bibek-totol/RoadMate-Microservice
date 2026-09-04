@@ -1,12 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
-import { ArrowRight, Banknote, Bike, Car, CheckCircle, Clock, CreditCard, DollarSign, IndianRupee, Loader2, MapPin, Navigation, Shield, Truck, Wallet, XCircle } from 'lucide-react';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { ArrowRight, Banknote, Bike, Car, CheckCircle, Clock, CreditCard, IndianRupee, Loader2, MapPin, Navigation, Shield, Truck, Wallet, XCircle } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import axios from 'axios';
 import { getSocket } from '@/lib/socket';
 
-const VEHICLE_META: any = {
+const VEHICLE_META: Record<string, { label: string; Icon: React.ComponentType<{ size?: number; className?: string }> }> = {
   bike: { label: "Bike", Icon: Bike },
   auto: { label: "Auto", Icon: Car },
   car: { label: "Car", Icon: Car },
@@ -19,10 +19,9 @@ type Status = "idle" | "requested" | "awaiting_payment"
   | "payment" | "confirmed";
 
 function CheckOutContent() {
-  const router = useRouter()
   const params = useSearchParams()
-  const [pickUp, setPickUp] = useState(params.get("pickUp") || "")
-  const [drop, setDrop] = useState(params.get("drop") || "")
+  const [pickUp] = useState(params.get("pickUp") || "")
+  const [drop] = useState(params.get("drop") || "")
   const mobile = params.get("mobile")
   const pickUpLat = Number(params.get("pickUpLat"))
   const pickUpLon = Number(params.get("pickUpLon"))
@@ -35,7 +34,7 @@ function CheckOutContent() {
   const { Icon, label } = VEHICLE_META[vehicle] || { Icon: Car, label: "Car" }
   const [loading, setLoading] = useState(false)
   const [status, setStatus] = useState<Status>("idle")
-  const [booking, setBooking] = useState<any>()
+  const [booking, setBooking] = useState<{ _id: string; user?: string | { _id: string }; bookingStatus?: Status } | null>(null)
   const [paymentMethod, setPaymentMethod] = useState<"cash" | "online">("cash")
 
   const handleRequestBooking = async () => {
@@ -60,9 +59,11 @@ function CheckOutContent() {
       setBooking(data)
       setLoading(false)
       setStatus("requested")
-    } catch (error: any) {
+    } catch (error: unknown) {
       setLoading(false)
-      console.log(error?.response?.data?.message)
+      if (axios.isAxiosError(error)) {
+        console.log(error?.response?.data?.message)
+      }
     }
   }
 
@@ -132,6 +133,7 @@ function CheckOutContent() {
   }
 
   const handleCancel = async () => {
+    if (!booking) return
     try {
       await axios.get(`/api/booking/${booking._id}/cancel`)
       setStatus("idle")
@@ -382,7 +384,7 @@ function CheckOutContent() {
                           <motion.div
                             key={p.id}
                             whileTap={{ scale: 0.97 }}
-                            onClick={() => setPaymentMethod(p.id as any)}
+                            onClick={() => setPaymentMethod(p.id as "cash" | "online")}
                             className={`w-full flex items-center gap-4 p-4 rounded-2xl border cursor-pointer transition-all duration-200 ${
                               active
                                 ? "bg-gradient-to-br from-purple-600/30 to-indigo-600/30 border-purple-500 shadow-[0_0_20px_rgba(168,85,247,0.3)]"
@@ -462,7 +464,7 @@ function CheckOutContent() {
                     <motion.button
                       whileTap={{ scale: 0.97 }}
                       whileHover={{ scale: 1.03 }}
-                      onClick={() => { window.location.href = `/user/ride/${booking._id}`; }}
+                      onClick={() => { if (booking?._id) window.location.href = `/user/ride/${booking._id}`; }}
                       className="flex items-center gap-2.5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-extrabold text-sm px-8 py-4 rounded-2xl transition-all shadow-lg shadow-purple-600/30"
                     >
                       Track Your Ride <ArrowRight size={16} />

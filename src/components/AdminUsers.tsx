@@ -5,7 +5,7 @@ import {
     Users, Briefcase, Search, ChevronLeft, ChevronRight,
     Mail, Phone, CheckCircle2, XCircle, Clock, Car,
     ShoppingBag, TrendingUp, BadgeCheck, AlertCircle, RefreshCw,
-    FileText, CreditCard, ShieldCheck, DollarSign, ExternalLink, Info
+    FileText, CreditCard
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'motion/react'
 import DocPreview from './DocPreview'

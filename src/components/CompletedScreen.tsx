@@ -1,17 +1,17 @@
 'use client'
-import { IBooking, PaymentStatus } from '@/models/booking.model'
+import { IBooking } from '@/models/booking.model'
 import React from 'react'
 import { motion } from "motion/react"
-import { CheckCircle, CheckCircle2, IndianRupee, User } from 'lucide-react'
+import { CheckCircle2, IndianRupee, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-const PAYMENT_BADGE: Record<any, { label: string; cls: string }> = {
+const PAYMENT_BADGE: Record<string, { label: string; cls: string }> = {
     pending: { label: "Pending", cls: "bg-amber-100 text-amber-700" },
     paid: { label: "Paid", cls: "bg-emerald-100 text-emerald-700" },
     cash: { label: "Cash", cls: "bg-zinc-100 text-zinc-700" },
     failed: { label: "Failed", cls: "bg-red-100 text-red-700" },
 };
-function CompletedScreen({ booking, role }: { booking:any, role: string }) {
+function CompletedScreen({ booking, role }: { booking: IBooking, role: string }) {
     const router=useRouter()
     return (
         <motion.div

@@ -1,7 +1,13 @@
 'use client'
 import React from 'react'
 import {motion} from "motion/react"
-function AnimatedCard({title,icon,children}:any) {
+interface AnimatedCardProps {
+  title: string;
+  icon: React.ReactNode;
+  children: React.ReactNode;
+}
+
+function AnimatedCard({title,icon,children}: AnimatedCardProps) {
   return (
     <motion.div 
      whileHover={{ y: -4 }}

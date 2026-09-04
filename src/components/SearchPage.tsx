@@ -1,15 +1,15 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
-import { ArrowLeft, Bike, Car, MapPin, Navigation, RefreshCcw, Search, Truck, Zap } from 'lucide-react'
+import { ArrowLeft, Bike, Car, MapPin, Navigation, RefreshCcw, Search, Truck } from 'lucide-react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 const SearchMap = dynamic(() => import("@/components/SearchMap"), { ssr: false })
 import axios from 'axios'
-import Vehicle, { vehicleType } from '@/models/vehicle.model'
+import { vehicleType } from '@/models/vehicle.model'
 import VehicleCard from '@/components/VehicleCard'
 
-const VEHICLE_META: any = {
+const VEHICLE_META: Record<string, { label: string; Icon: React.ComponentType<{ size?: number; className?: string }> }> = {
     bike: { label: "Bike", Icon: Bike },
     auto: { label: "Auto", Icon: Car },
     car: { label: "Car", Icon: Car },
@@ -50,7 +50,7 @@ function SearchPage() {
     const [loading, setLoading] = useState(false)
     const meta = VEHICLE_META[vehicle]
 
-    const getNearByVehicles = async (latitude: number, longitude: number, vehicleType: string | null) => {
+    const getNearByVehicles = useCallback(async (latitude: number, longitude: number, vehicleType: string | null) => {
         setLoading(true)
         try {
             const { data } = await axios.post("/api/vehicles/near-by", {
@@ -62,11 +62,11 @@ function SearchPage() {
             console.log(error)
             setLoading(false)
         }
-    }
+    }, [])
 
     useEffect(() => {
         getNearByVehicles(pickUpLat, pickUpLon, vehicle)
-    }, [pickUpLat, pickUpLon, pickUp])
+    }, [pickUpLat, pickUpLon, pickUp, vehicle, getNearByVehicles])
 
     return (
         <div className='min-h-screen bg-[#090a0f] text-white overflow-x-hidden relative'>
@@ -223,7 +223,7 @@ function SearchPage() {
                                             vehicle: v.type,
                                             driverId: v.owner,
                                             vehicleId: String(v._id),
-                                            fare: String(Math.round(v.baseFare! + (v.pricePerKM! * km))),
+                                            fare: String(Math.round((v.baseFare || 0) + ((v.pricePerKM || 0) * km))),
                                             pickUpLat: String(pickUpLat),
                                             pickUpLon: String(pickUpLon),
                                             dropLat: String(dropLat),

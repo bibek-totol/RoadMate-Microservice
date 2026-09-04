@@ -1,7 +1,7 @@
 'use client'
 import React from 'react'
 import { motion } from 'motion/react'
-import { Search, Bike, Car, Truck, ShieldCheck, MapPin, CheckCircle } from 'lucide-react'
+import { Search, Bike, Car, Truck, CheckCircle } from 'lucide-react'
 
 const MOBILITY_FEATURES = [
   {

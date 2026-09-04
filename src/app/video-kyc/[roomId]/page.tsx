@@ -8,7 +8,7 @@ import { CheckCircle, Mic, MicOff, PhoneOff, Video, VideoOff, X, XCircle } from 
 import { useParams, useRouter } from 'next/navigation';
 import axios from 'axios';
 import { AnimatePresence,motion } from 'motion/react';
-function page() {
+export default function VideoKycPage() {
   const { userData } = useSelector((state: RootState) => state.user)
   const containerRef = useRef<HTMLDivElement>(null)
   const [joined, setJoined] = useState(false)
@@ -47,7 +47,7 @@ function page() {
     init()
 
 
-  }, [])
+  }, [joined])
 
   const toggleCamera = () => {
     if (!stream) return
@@ -69,8 +69,10 @@ try {
   console.log(data)
   setALoading(false)
     router.push("/")
-} catch (error:any) {
-  console.log(error.response.data.message ?? error)
+} catch (error: unknown) {
+  if (axios.isAxiosError(error)) {
+    console.log(error.response?.data?.message ?? error)
+  }
   setALoading(false)
 }
 }
@@ -81,9 +83,11 @@ try {
   console.log(data)
   setRLoading(false)
   router.push("/")
-} catch (error:any) {
-  console.log(error.response.data.message ?? error)
-   setRLoading(false)
+} catch (error: unknown) {
+  if (axios.isAxiosError(error)) {
+    console.log(error.response?.data?.message ?? error)
+  }
+  setRLoading(false)
 }
 }
 
@@ -99,12 +103,12 @@ try {
     const displayName=userData?.role=="admin"?"Admin":`${userData?.name} (${userData?.email})`
     try {
       const appId = Number(process.env.NEXT_PUBLIC_ZEGO_APP_ID)
-      const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET
+      const serverSecret = process.env.NEXT_PUBLIC_ZEGO_SERVER_SECRET || ""
       const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(
         appId,
-        serverSecret!,
-        roomId?.toString()!,
-        userData?._id.toString()!,
+        serverSecret,
+        roomId ? roomId.toString() : "",
+        userData?._id ? userData._id.toString() : "",
         displayName
       )
 
@@ -301,5 +305,3 @@ Secure Video KYC
     </div>
   )
 }
-
-export default page

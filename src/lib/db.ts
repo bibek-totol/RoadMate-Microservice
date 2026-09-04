@@ -2,9 +2,14 @@ import mongoose from "mongoose"
 
 const mongodbUrl = process.env.MONGODB_URL
 
-let cached = (global as any).mongooseConn
+declare global {
+  // eslint-disable-next-line no-var
+  var mongooseConn: { conn: mongoose.Connection | null; promise: Promise<mongoose.Connection> | null } | undefined
+}
+
+let cached = global.mongooseConn
 if (!cached) {
-  cached = (global as any).mongooseConn = { conn: null, promise: null }
+  cached = global.mongooseConn = { conn: null, promise: null }
 }
 
 const connectDb = async () => {

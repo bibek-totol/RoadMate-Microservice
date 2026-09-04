@@ -27,7 +27,14 @@ const KPI_CONFIG: Record<string, {
   },
 };
 
-function Kpi({ label, value, icon, variant }: any) {
+interface KpiProps {
+  label: string;
+  value?: number;
+  icon: React.ReactNode;
+  variant: string;
+}
+
+function Kpi({ label, value, icon, variant }: KpiProps) {
   const cfg = KPI_CONFIG[variant] || KPI_CONFIG.totalPartners
 
   return (

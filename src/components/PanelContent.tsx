@@ -19,7 +19,22 @@ const getVehicleIcon = (vehicleType?: string) => {
     }
 };
 
-function PanelContent({ isActive, displayDistance, displayEta, cfg, status, booking, paymentStatus, canChat, chatOpen, onChatToggle, currentRole }: any) {
+interface PanelContentProps {
+    isActive: boolean;
+    displayDistance?: number;
+    displayEta: number;
+    cfg?: unknown;
+    status?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    booking: any;
+    paymentStatus?: { label: string };
+    canChat?: boolean;
+    chatOpen?: boolean;
+    onChatToggle?: () => void;
+    currentRole: "user" | "driver";
+}
+
+function PanelContent({ isActive, displayEta, booking, paymentStatus, canChat, chatOpen, onChatToggle, currentRole }: PanelContentProps) {
     return (
         <div className='flex flex-col pt-5 pb-4 gap-3 bg-[#0e0f17] text-white min-h-full'>
             {isActive && (
@@ -129,7 +144,7 @@ function PanelContent({ isActive, displayDistance, displayEta, cfg, status, book
                         className="mx-5 lg:mx-6 overflow-hidden"
                     >
                         <div className='rounded-2xl overflow-hidden border border-white/10 h-[440px] bg-[#12131c]'>
-                            <RideChat currentRole={currentRole} bookingId={booking._id} userName={booking?.user?.name || "Customer"} driverName={booking?.driver?.name || "Driver"} />
+                            <RideChat currentRole={currentRole as "user" | "driver"} bookingId={booking._id} userName={booking?.user?.name || "Customer"} driverName={booking?.driver?.name || "Driver"} />
                         </div>
                     </motion.div>
                 )}

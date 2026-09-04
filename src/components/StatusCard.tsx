@@ -1,7 +1,13 @@
 'use client'
 import React from 'react'
 import { motion } from "motion/react"
-function StatusCard({ icon, title, desc }: any) {
+interface StatusCardProps {
+    icon: React.ReactNode;
+    title: string;
+    desc: string;
+}
+
+function StatusCard({ icon, title, desc }: StatusCardProps) {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -61,7 +61,7 @@ export default function Testimonials() {
                 </div>
                 <Quote size={20} className="text-muted-foreground/40 mb-2" />
                 <p className="text-muted-foreground text-sm leading-relaxed italic">
-                  "{item.content}"
+                  &quot;{item.content}&quot;
                 </p>
               </div>
 

@@ -18,10 +18,13 @@ export type PaymentStatus = "pending"
 
 
 export interface IBooking {
-    _id?:mongoose.Types.ObjectId
-    user: mongoose.Types.ObjectId
-    driver: mongoose.Types.ObjectId
-    vehicle: mongoose.Types.ObjectId
+    _id?: mongoose.Types.ObjectId | string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    user: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    driver: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    vehicle: any
 
     pickUpAddress: string
     dropAddress: string

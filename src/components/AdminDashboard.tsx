@@ -1,13 +1,13 @@
 'use client'
 import axios from 'axios'
-import { CheckCircle2, Clock, Settings, Truck, User, Users, Video, XCircle } from 'lucide-react'
+import { CheckCircle2, Clock, Truck, User, Users, Video, XCircle } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Kpi from './Kpi'
 import TabButton from './TabButton'
 import { AnimatePresence } from 'motion/react'
 import { motion } from "motion/react"
-import ContentList from './ContentList'
+import ContentList, { ContentListItem } from './ContentList'
 import AdminEarning from './AdminEarning'
 import AdminFooter from './AdminFooter'
 import AdminUsers from './AdminUsers'
@@ -22,29 +22,29 @@ type Tab = "partner" | "kyc" | "vehicle" | "people"
 function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>("partner")
-  const [partnerReviews, setPartnerReviews] = useState<any>()
-  const [pendingkyc, setPendingkyc] = useState<any>()
-  const [vehicleReviews, setVehicleReviews] = useState<any>()
-  const handleGetData = async () => {
-    try {
-      const { data } = await axios.get("/api/admin/dashboard")
-      setStats(data.stats)
-      setPartnerReviews(data.pendingPartnersReviews)
-      setVehicleReviews(data.pendingVehicles)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-  const handleGetPendingKYC = async () => {
-    try {
-      const { data } = await axios.get("/api/admin/video-kyc/pending")
-      setPendingkyc(data)
-    } catch (error) {
-      console.log(error)
-    }
-  }
+  const [partnerReviews, setPartnerReviews] = useState<ContentListItem[]>([])
+  const [pendingkyc, setPendingkyc] = useState<ContentListItem[]>([])
+  const [vehicleReviews, setVehicleReviews] = useState<ContentListItem[]>([])
 
   useEffect(() => {
+    const handleGetData = async () => {
+      try {
+        const { data } = await axios.get("/api/admin/dashboard")
+        setStats(data.stats)
+        setPartnerReviews(data.pendingPartnersReviews)
+        setVehicleReviews(data.pendingVehicles)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    const handleGetPendingKYC = async () => {
+      try {
+        const { data } = await axios.get("/api/admin/video-kyc/pending")
+        setPendingkyc(data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
     handleGetPendingKYC()
     handleGetData()
   }, [])

@@ -1,3 +1,4 @@
+import 'leaflet/dist/leaflet.css'
 import { LatLngExpression } from 'leaflet'
 import React, { useEffect, useState } from 'react'
 import { MapContainer, Marker, Polyline, TileLayer } from 'react-leaflet'
@@ -153,7 +154,7 @@ const showDropRoute=mapStatus!="completed" && routeToDrop.length>0
         <div className='relative h-full w-full bg-zinc-100'>
             <MapContainer
                 style={{ width: "100%", height: "100%" }}
-                center={pickUpLocation as any}
+                center={(pickUpLocation || [0, 0]) as LatLngExpression}
                 zoom={13}
                 zoomControl={false}
             >
@@ -166,21 +167,21 @@ const showDropRoute=mapStatus!="completed" && routeToDrop.length>0
 
 
 
-                {showPickMarker && <Marker
-                    position={pickUpLocation as any}
+                {showPickMarker && pickUpLocation && <Marker
+                    position={pickUpLocation as LatLngExpression}
                     icon={pickUpIcon}
                     draggable
 
 
                 />}
                 {dropLocation && <Marker
-                    position={dropLocation as any}
+                    position={dropLocation as LatLngExpression}
                     icon={dropIcon}
                     draggable
 
                 />}
                 {driverLocation && <Marker
-                    position={driverLocation as any}
+                    position={driverLocation as LatLngExpression}
                     icon={driverIcon}
                     draggable
 

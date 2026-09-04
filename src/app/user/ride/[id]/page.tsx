@@ -3,7 +3,7 @@ import { BookingStatus, IBooking, PaymentStatus } from '@/models/booking.model'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { motion } from "motion/react"
-import { Car, ChevronUp, Zap } from 'lucide-react'
+import { ChevronUp, Zap } from 'lucide-react'
 import dynamic from 'next/dynamic'
 const LiveRideMap=dynamic(() => import("@/components/LiveRideMap"), { ssr: false })
 import PanelContent from '@/components/PanelContent'
@@ -44,7 +44,7 @@ const PAYMENT_BADGE: Record<PaymentStatus, { label: string; cls: string }> = {
     failed: { label: "Failed", cls: "bg-red-100 text-red-700" },
 };
 
-function page() {
+export default function UserRidePage() {
     const [booking, setBooking] = useState<IBooking | null>(null)
     const [loading, setLoading] = useState(false)
     const [driverPos, setDriverPos] = useState<[number, number] | null>(null)
@@ -72,19 +72,24 @@ function page() {
                 setPickUpPos([data.pickUpLocation.coordinates[1], data.pickUpLocation.coordinates[0]])
                 setDropPos([data.dropLocation.coordinates[1], data.dropLocation.coordinates[0]])
                 setLoading(false)
-            } catch (error: any) {
-                console.log(error.response.data.message)
+            } catch (error: unknown) {
+                if (axios.isAxiosError(error)) {
+                    console.log(error.response?.data?.message)
+                }
                 setLoading(false)
             }
         }
-        fetch()
-    }, [])
+        if (id) {
+            fetch()
+        }
+    }, [id])
 
     const onChatToggle = () => {
         setChatOpen(prev => !prev)
     }
 
     useEffect(() => {
+       if (!id) return;
        const socket=getSocket()
         socket.emit("join-ride",id)
         socket.on("driver-location",({latitude,longitude})=>{
@@ -95,7 +100,7 @@ function page() {
         socket.off("driver-location")
 
        }
-    }, [])
+    }, [id])
 
 
     if (loading) {
@@ -114,13 +119,13 @@ function page() {
             )
         }
 
-    const cfg = STATUS_LABEL[booking?.bookingStatus! ?? "confirmed"]
+    const cfg = STATUS_LABEL[booking?.bookingStatus || "confirmed"]
     const isActive = ["confirmed", "started"].includes(status)
     const canChat = ["confirmed", "started"].includes(booking?.bookingStatus || "")
     const displayEta = status === "confirmed" ? etaToPickUp : etaToDrop
     const displayDistance = status === "confirmed" ? distanceToPickUp : distanceToDrop
-    const paymentStatus = PAYMENT_BADGE[booking?.paymentStatus! ?? "pending"]
-    const panelProps = { isActive, displayDistance, displayEta, cfg, status, booking, paymentStatus, canChat, chatOpen, onChatToggle, currentRole: "user" }
+    const paymentStatus = PAYMENT_BADGE[booking?.paymentStatus || "pending"]
+    const panelProps = { isActive, displayDistance, displayEta, cfg, status, booking, paymentStatus, canChat, chatOpen, onChatToggle, currentRole: "user" as const }
     return (
         <div className='h-screen w-full bg-[#090a0f] text-white flex flex-col lg:flex-row overflow-hidden'>
             <div className='relative flex-1 h-full z-0'>
@@ -128,7 +133,7 @@ function page() {
                     driverLocation={driverPos}
                     pickUpLocation={pickUpPos}
                     dropLocation={dropPos}
-                    mapStatus={MAP_STATUS[booking?.bookingStatus!]}
+                    mapStatus={MAP_STATUS[booking?.bookingStatus || "confirmed"]}
                     onStats={({ distanceToPickUp, etaToPickUp, distanceToDrop, etaToDrop }) => {
                         setDistanceToPickUp(distanceToPickUp)
                         setEtaToPickUp(etaToPickUp)
@@ -223,6 +228,4 @@ function page() {
             </div>
         </div>
     )
-}
-
-export default page
+}

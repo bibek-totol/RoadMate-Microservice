@@ -2,7 +2,7 @@
 import { IVehicle } from '@/models/vehicle.model'
 import React, { useEffect, useState } from 'react'
 import { AnimatePresence, motion } from "motion/react"
-import { ImagePlus, X, CircleDashed, Check } from 'lucide-react'
+import { ImagePlus, X, CircleDashed } from 'lucide-react'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
 
@@ -46,8 +46,10 @@ function PricingModal({ open, onClose, data }: PropsType) {
             setLoading(false)
             onClose()
             router.refresh()
-        } catch (error: any) {
-            console.log(error.response?.data?.message ?? error)
+        } catch (error: unknown) {
+            if (axios.isAxiosError(error)) {
+                console.log(error.response?.data?.message ?? error)
+            }
             setLoading(false)
         }
     }

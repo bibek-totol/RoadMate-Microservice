@@ -2,7 +2,14 @@
 import { AlertTriangle } from 'lucide-react'
 import React from 'react'
 
-function RejectionCard({title,reason,actionLabel,onAction}:any) {
+interface RejectionCardProps {
+  title: string;
+  reason?: string;
+  actionLabel?: string;
+  onAction?: () => void;
+}
+
+function RejectionCard({title,reason,actionLabel,onAction}: RejectionCardProps) {
   return (
     <div className='bg-rose-950/30 
         border border-rose-500/30 

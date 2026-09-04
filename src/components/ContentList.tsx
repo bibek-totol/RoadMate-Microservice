@@ -5,10 +5,24 @@ import { ArrowRight, CheckCircle2, User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
-function ContentList({ data, type }: any) {
+export interface ContentListItem {
+    _id: string;
+    name?: string;
+    email?: string;
+    owner?: { name?: string; email?: string };
+    videoKycStatus?: string;
+    videoKycRoomId?: string;
+}
+
+interface ContentListProps {
+    data: ContentListItem[];
+    type: "partner" | "kyc" | "vehicle";
+}
+
+function ContentList({ data, type }: ContentListProps) {
     const router = useRouter()
     
-    const handleStartVideoKyc = async (id: any) => {
+    const handleStartVideoKyc = async (id: string) => {
         try {
             await axios.get(`/api/admin/video-kyc/start/${id}`)
             window.location.reload()
@@ -42,7 +56,7 @@ function ContentList({ data, type }: any) {
                 <p className='text-xs text-gray-600 font-semibold'>{data.length} items</p>
             </div>
 
-            {data.map((item: any, index: number) => {
+            {data.map((item: ContentListItem, index: number) => {
                 const name = item.name || item.owner?.name || "Unknown User"
                 const email = item.email || item.owner?.email || "No email"
 

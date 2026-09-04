@@ -1,4 +1,4 @@
-import mongoose, { Document, Mongoose } from "mongoose";
+import mongoose, { Document } from "mongoose";
 
 type VideoKycStatus=
    "not_required"

@@ -2,7 +2,15 @@
 import React from 'react'
 import { motion } from "motion/react"
 
-function TabButton({ active, count, onClick, icon, children }: any) {
+interface TabButtonProps {
+    active: boolean;
+    count?: number;
+    onClick: () => void;
+    icon: React.ReactNode;
+    children: React.ReactNode;
+}
+
+function TabButton({ active, count, onClick, icon, children }: TabButtonProps) {
     return (
         <motion.div
             onClick={onClick}
