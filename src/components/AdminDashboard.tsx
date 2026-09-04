@@ -1,6 +1,6 @@
 'use client'
 import axios from 'axios'
-import { CheckCircle2, Clock, Truck, User, Users, Video, XCircle } from 'lucide-react'
+import { Calendar, CheckCircle2, Clock, Truck, User, Users, Video, XCircle } from 'lucide-react'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import Kpi from './Kpi'
@@ -11,6 +11,8 @@ import ContentList, { ContentListItem } from './ContentList'
 import AdminEarning from './AdminEarning'
 import AdminFooter from './AdminFooter'
 import AdminUsers from './AdminUsers'
+import AdminBookings from './AdminBookings'
+
 type Stats = {
   totalApprovedPartners: number
   totalPartners: number
@@ -18,7 +20,7 @@ type Stats = {
   totalRejectedPartners: number
 }
 
-type Tab = "partner" | "kyc" | "vehicle" | "people"
+type Tab = "partner" | "kyc" | "vehicle" | "people" | "bookings"
 function AdminDashboard() {
   const [stats, setStats] = useState<Stats | null>(null)
   const [activeTab, setActiveTab] = useState<Tab>("partner")
@@ -55,7 +57,7 @@ function AdminDashboard() {
           <div className='flex items-center gap-3 cursor-pointer' onClick={() => window.location.href = '/'}>
             <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
               <Image
-                src="/loco.png"
+                src="/logo.png"
                 alt="RoadMate"
                 width={40}
                 height={40}
@@ -121,6 +123,14 @@ function AdminDashboard() {
           >
             Users & Partners
           </TabButton>
+
+          <TabButton
+            active={activeTab == "bookings"}
+            icon={<Calendar size={15} />}
+            onClick={() => setActiveTab("bookings")}
+          >
+            Vehicle Bookings
+          </TabButton>
         </div>
         <AnimatePresence mode='wait'>
           <motion.div
@@ -135,6 +145,7 @@ function AdminDashboard() {
 {activeTab=="kyc"&& <ContentList data={pendingkyc ?? []} type={"kyc"}/>}
 {activeTab=="vehicle"&& <ContentList data={vehicleReviews ?? []} type={"vehicle"}/>}
 {activeTab=="people"&& <AdminUsers />}
+{activeTab=="bookings"&& <AdminBookings />}
           </motion.div>
         </AnimatePresence>
 

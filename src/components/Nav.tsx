@@ -69,7 +69,7 @@ function Nav() {
                         >
                             <div className="relative w-9 h-9 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
                                 <Image
-                                    src="/loco.png"
+                                    src="/logo.png"
                                     alt="RoadMate"
                                     width={36}
                                     height={36}

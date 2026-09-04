@@ -133,7 +133,7 @@ try {
         <div className="flex items-center gap-3">
           <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-md ring-1 ring-amber-500/30 bg-[#090a0f] p-0.5 flex items-center justify-center shrink-0">
             <Image
-              src="/loco.png"
+              src="/logo.png"
               alt="RoadMate"
               width={40}
               height={40}
